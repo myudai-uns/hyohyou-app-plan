@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>品標表示アプリ 第3版 Raspberry Pi対応方針</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1a1c1f;
+  --bg2:#23262b;
+  --bg3:#2c3036;
+  --line:#3a3f47;
+  --ink:#f3f4f6;
+  --ink2:#c8ccd2;
+  --ink3:#8b939c;
+  --orange:#ff7a1a;
+  --orange-d:#e85d00;
+  --green:#3fb950;
+  --green-d:#2ea043;
+  --red:#ff4d4d;
+  --yellow:#ffc933;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",sans-serif;font-weight:500;-webkit-font-smoothing:antialiased}
+code,kbd,pre{font-family:"JetBrains Mono","Noto Sans JP",monospace;font-weight:500}
+body{padding:0 0 60px}
+.wrap{max-width:1180px;margin:0 auto}
+header{background:var(--bg2);padding:36px 40px 28px;border-bottom:4px solid var(--orange)}
+.kicker{font-size:13px;font-weight:700;color:var(--orange);letter-spacing:.12em}
+h1{font-size:42px;font-weight:900;line-height:1.15;margin-top:8px;letter-spacing:-.01em}
+h1 .sub{display:block;font-size:18px;font-weight:700;color:var(--ink2);margin-top:10px;letter-spacing:0}
+.meta{margin-top:16px;display:flex;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--ink3);font-weight:700}
+.meta span b{color:var(--green);font-weight:900;margin-right:6px}
+section{padding:0 40px}
+.sec{margin-top:0;border-bottom:1px solid var(--line);background:var(--bg)}
+.sec-head{padding:32px 40px 16px;display:flex;align-items:baseline;gap:18px}
+.sec-num{font-size:14px;font-weight:900;color:var(--orange);letter-spacing:.1em;flex-shrink:0;min-width:48px}
+.sec-title{font-size:28px;font-weight:900;letter-spacing:-.01em}
+.sec-lead{padding:0 40px 24px 106px;color:var(--ink2);font-size:15px;font-weight:500;line-height:1.7;max-width:980px}
+.sec-body{padding:0 40px 40px}
+h3{font-size:18px;font-weight:900;margin:28px 0 14px;padding-left:14px;border-left:4px solid var(--green)}
+h4{font-size:15px;font-weight:900;margin:20px 0 10px;color:var(--ink2)}
+p{font-size:14px;line-height:1.8;color:var(--ink2);font-weight:500}
+ul,ol{padding-left:22px;color:var(--ink2);font-size:14px;line-height:1.85;font-weight:500}
+ul li::marker{color:var(--orange)}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;background:var(--bg2)}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--bg3);font-weight:900;color:var(--ink);font-size:12px;letter-spacing:.04em}
+td code{background:var(--bg3);padding:2px 6px;border-radius:3px;font-size:12px;color:var(--orange)}
+.tag{display:inline-block;padding:2px 8px;border-radius:3px;font-size:11px;font-weight:900;letter-spacing:.04em}
+.tag-win{background:#1f4d8f;color:#cfe0ff}
+.tag-pi{background:#1f5d3a;color:#c8f0d4}
+.tag-both{background:#5c3f00;color:#ffdf99}
+.tag-ok{background:var(--green-d);color:#fff}
+.tag-ng{background:#7a2222;color:#ffd0d0}
+.tag-warn{background:#7a5a00;color:#fff1c2}
+.callout{background:var(--bg2);border-left:5px solid var(--orange);padding:18px 22px;margin:18px 0;border-radius:0 8px 8px 0}
+.callout.green{border-color:var(--green)}
+.callout.red{border-color:var(--red)}
+.callout-title{font-weight:900;font-size:14px;margin-bottom:6px;color:var(--orange)}
+.callout.green .callout-title{color:var(--green)}
+.callout.red .callout-title{color:var(--red)}
+.callout p{color:var(--ink)}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:16px 0}
+.card{background:var(--bg2);padding:22px 24px;border:1px solid var(--line)}
+.card+.card{border-left:none}
+.card.adopted{background:linear-gradient(180deg,#1f3a25,#1a2c1d);border:1px solid var(--green)}
+.card-rank{font-size:11px;font-weight:900;letter-spacing:.1em;color:var(--ink3);margin-bottom:4px}
+.card.adopted .card-rank{color:var(--green)}
+.card-title{font-size:18px;font-weight:900;margin-bottom:12px}
+.card-meta{display:flex;gap:18px;font-size:12px;font-weight:700;color:var(--ink3);margin-bottom:14px;flex-wrap:wrap}
+.card-meta b{color:var(--orange);font-weight:900;margin-right:4px}
+pre{background:var(--bg3);color:var(--ink);padding:16px 18px;border-radius:6px;font-size:12px;line-height:1.7;overflow-x:auto;margin:10px 0;border:1px solid var(--line)}
+pre .c{color:var(--ink3)}
+pre .k{color:var(--orange);font-weight:700}
+pre .s{color:var(--green)}
+.tree{background:var(--bg3);padding:18px 22px;border-radius:6px;font-family:"JetBrains Mono",monospace;font-size:12.5px;line-height:1.85;color:var(--ink);border:1px solid var(--line);font-weight:500}
+.tree .dir{color:var(--orange);font-weight:700}
+.tree .note{color:var(--ink3)}
+.checklist{margin:8px 0}
+.cl-group{margin:14px 0;background:var(--bg2);border:1px solid var(--line);overflow:hidden}
+.cl-head{padding:14px 22px;background:var(--bg3);display:flex;justify-content:space-between;align-items:center}
+.cl-head-title{font-size:15px;font-weight:900}
+.cl-head-time{font-size:13px;font-weight:900;color:var(--orange)}
+.cl-table{width:100%;border-collapse:collapse}
+.cl-table td{padding:11px 14px;border-bottom:1px solid var(--line);font-size:13px;color:var(--ink2);font-weight:500}
+.cl-table tr:last-child td{border-bottom:none}
+.cl-table .id{width:60px;font-weight:900;color:var(--ink3);font-size:11px;letter-spacing:.04em}
+.cl-table .body{}
+.cl-table .time{width:90px;text-align:right;font-weight:900;color:var(--green);font-size:13px}
+.cl-table .src{width:160px;font-size:11px;color:var(--ink3);font-family:"JetBrains Mono",monospace}
+.summary{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin:18px 0;border:1px solid var(--line)}
+.summary div{padding:18px 16px;background:var(--bg2);text-align:center}
+.summary div+div{border-left:1px solid var(--line)}
+.summary .label{font-size:11px;font-weight:900;color:var(--ink3);letter-spacing:.06em}
+.summary .val{font-size:22px;font-weight:900;color:var(--orange);margin-top:4px}
+.summary .unit{font-size:12px;color:var(--ink3);font-weight:700;margin-left:3px}
+.total{background:linear-gradient(135deg,var(--orange) 0%,var(--orange-d) 100%);color:#fff;padding:24px 32px;margin:24px 0 0;border-radius:8px;display:flex;justify-content:space-between;align-items:center}
+.total .l{font-size:14px;font-weight:900;letter-spacing:.08em}
+.total .r{font-size:36px;font-weight:900}
+.total .r .u{font-size:18px;font-weight:700;margin-left:6px}
+.steps{display:grid;grid-template-columns:1fr;gap:0;border:1px solid var(--line);background:var(--bg2)}
+.step{padding:16px 22px;display:flex;gap:18px;align-items:center;border-bottom:1px solid var(--line)}
+.step:last-child{border-bottom:none}
+.step-no{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--orange);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}
+.step-body{flex:1;font-size:14px;font-weight:700;color:var(--ink)}
+.step-body small{display:block;font-size:12px;color:var(--ink3);font-weight:500;margin-top:2px}
+.step-time{flex-shrink:0;font-size:12px;font-weight:900;color:var(--green);padding:4px 10px;background:var(--bg3);border-radius:3px}
+footer{padding:32px 40px;color:var(--ink3);font-size:12px;text-align:center;font-weight:500}
+@media(max-width:760px){
+  header{padding:24px 20px}
+  h1{font-size:28px}
+  .sec-head{padding:24px 20px 12px;flex-direction:column;gap:6px}
+  .sec-lead{padding:0 20px 20px}
+  .sec-body{padding:0 20px 30px}
+  section{padding:0 20px}
+  .cards{grid-template-columns:1fr}
+  .card+.card{border-left:1px solid var(--line);border-top:none}
+  .summary{grid-template-columns:repeat(2,1fr)}
+  .summary div+div{border-left:none}
+  .summary div:nth-child(2n){border-left:1px solid var(--line)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">CLIENT / アイシン高丘東北 — APP / 品標表示アプリ 第3版</div>
+  <h1>Raspberry Pi対応 実装方針＆動作確認チェックリスト<span class="sub">main_v2.py を py版（Pi常時表示）と exe版（Windows）両方納品する構成</span></h1>
+  <div class="meta">
+    <span><b>BASE</b>main_v2.py (2,160行)</span>
+    <span><b>TARGET</b>Raspberry Pi OS + Windows 10/11</span>
+    <span><b>DATE</b>2026-05-13</span>
+    <span><b>TOTAL EST.</b>2.5〜4時間</span>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 01</div><div class="sec-title">前提と現状把握</div></div>
+  <div class="sec-lead">既存の <code>main_v2.py</code> は Windows前提で作られている。Raspberry Pi 起動セットアップは完了済みで、これからアプリのデータ移行と Pi対応コードの追加を行う段階。</div>
+  <div class="sec-body">
+
+  <h3>コード解析で見つかった OS依存箇所</h3>
+  <table>
+    <thead><tr><th style="width:120px">行番号</th><th>コード</th><th style="width:280px">影響</th><th style="width:90px">分類</th></tr></thead>
+    <tbody>
+    <tr><td>L29-30</td><td><code>AUTO_EXIT_ENABLED = True / AUTO_EXIT_MS = 60_000</code></td><td>1分無操作で強制終了。Pi常時表示運用ではNG</td><td><span class="tag tag-warn">要分岐</span></td></tr>
+    <tr><td>L163, L272 ほか約30か所</td><td><code>font=("Segoe UI", ...)</code></td><td>Windowsフォント。Piでは日本語表示できず□化または代替描画</td><td><span class="tag tag-ng">致命</span></td></tr>
+    <tr><td>L354</td><td><code>("Segoe UI Emoji", 13)</code></td><td>絵文字フォント。Piでは Noto Color Emoji 必要</td><td><span class="tag tag-ng">致命</span></td></tr>
+    <tr><td>L1051 / L2013</td><td><code>self.root.state("zoomed")</code></td><td>Tk の "zoomed" state は Windows限定。Linuxで例外発生</td><td><span class="tag tag-ng">致命</span></td></tr>
+    <tr><td>L2144-2145</td><td><code>windll.shcore.SetProcessDpiAwareness(1)</code></td><td>try/except済み。Piでは黙って失敗するので実害なし</td><td><span class="tag tag-ok">対応済</span></td></tr>
+    <tr><td>L1571-1576</td><td>explorer / open / xdg-open 分岐</td><td>既に platform 判定あり</td><td><span class="tag tag-ok">対応済</span></td></tr>
+    <tr><td>L834-839</td><td>TouchBegin/Update/End バインド</td><td>try/except済み。X11タッチで効くか実機検証必要</td><td><span class="tag tag-warn">要検証</span></td></tr>
+    <tr><td>L39</td><td><code>CONFIG_FILE_PATH = _app_dir()</code></td><td>frozen判定で exe/py 両対応済み</td><td><span class="tag tag-ok">対応済</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3>納品要件</h3>
+  <div class="callout">
+    <div class="callout-title">先方要望</div>
+    <p>py版（Raspberry Pi 常時表示）と exe版（Windows）の<b>両方を納品</b>する。</p>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 02</div><div class="sec-title">アーキテクチャ方針 ─ 3案比較と採用案</div></div>
+  <div class="sec-lead">「両方納品」でもソースコードを2本立てる必要はない。<b>ソース1セット・パッケージ2つ出力</b>が最も保守性が高い。</div>
+  <div class="sec-body">
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-rank">案 ①</div>
+      <div class="card-title">sys.platform 自動分岐</div>
+      <div class="card-meta"><span><b>ファイル</b>1個</span><span><b>作業</b>30-40分</span><span><b>保守性</b>△</span></div>
+      <p>main_v2.py 内に <code>IS_PI = sys.platform.startswith("linux")</code> を置いて if 文で切替。最小変更だが分岐がコード内に散る。</p>
+    </div>
+    <div class="card adopted">
+      <div class="card-rank">★ 採用案 ②</div>
+      <div class="card-title">設定モジュール分離</div>
+      <div class="card-meta"><span><b>ファイル</b>4個</span><span><b>作業</b>45-60分</span><span><b>保守性</b>◎</span></div>
+      <p>定数だけ <code>config_exe.py</code>／<code>config_pi.py</code> に切り出し、<code>app_config.py</code> で OS判定して片方を import。main_v2.py 側は分岐ほぼなし。</p>
+    </div>
+  </div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-rank">案 ③ 不採用</div>
+      <div class="card-title">完全別ファイル化</div>
+      <div class="card-meta"><span><b>ファイル</b>2個（独立）</span><span><b>作業</b>60分+毎回二重</span><span><b>保守性</b>×</span></div>
+      <p>main_exe.py / main_pi.py を完全に分ける。バグ修正・機能追加が二重作業になり事故の温床。共通ロジックが9割を占める本アプリでは非推奨。</p>
+    </div>
+    <div class="card">
+      <div class="card-rank">補足</div>
+      <div class="card-title">採用案②の根拠</div>
+      <div class="card-meta"><span><b>仕様差</b>7項目</span><span><b>共通ロジック</b>約9割</span></div>
+      <p>仕様差が7項目以上あるため①の散在分岐より②が見通し良い。新仕様追加も config側1行で済む。先方視点では完全に別パッケージに見える。</p>
+    </div>
+  </div>
+
+  <h3>config_exe.py / config_pi.py に入れる項目</h3>
+  <table>
+    <thead><tr><th>項目</th><th style="width:200px">exe版</th><th style="width:200px">py版（Pi）</th></tr></thead>
+    <tbody>
+    <tr><td>AUTO_EXIT_ENABLED</td><td><code>True</code></td><td><code>False</code></td></tr>
+    <tr><td>AUTO_EXIT_MS</td><td><code>60_000</code></td><td><code>0</code></td></tr>
+    <tr><td>FONT_UI</td><td><code>"Segoe UI"</code></td><td><code>"Noto Sans CJK JP"</code></td></tr>
+    <tr><td>FONT_EMOJI</td><td><code>"Segoe UI Emoji"</code></td><td><code>"Noto Color Emoji"</code></td></tr>
+    <tr><td>FULLSCREEN_MODE</td><td><code>"zoomed"</code></td><td><code>"fullscreen"</code></td></tr>
+    <tr><td>ENABLE_DPI_AWARE</td><td><code>True</code></td><td><code>False</code></td></tr>
+    <tr><td>APP_VARIANT</td><td><code>"exe"</code></td><td><code>"pi"</code></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 03</div><div class="sec-title">納品物の構成</div></div>
+  <div class="sec-lead">開発側は1ソースで管理し、納品時にディレクトリを2つに切り出す。先方には完全に独立した2パッケージとして渡る。</div>
+  <div class="sec-body">
+
+  <h3>開発ソース（1セットで管理）</h3>
+  <div class="tree">
+<span class="dir">品標表示アプリ/</span>
+├ main_v2.py           <span class="note">── 共通ロジック（main本体）</span>
+├ app_config.py        <span class="note">── OS判定して下のどちらかを import</span>
+├ config_exe.py        <span class="note">── exe版定数</span>
+├ config_pi.py         <span class="note">── py版定数</span>
+├ main_v2.spec         <span class="note">── PyInstaller spec</span>
+├ requirements.txt
+└ pdf_viewer_config.json
+  </div>
+
+  <h3>📦 exe版納品パッケージ（Windows用）</h3>
+  <div class="tree">
+<span class="dir">品標表示アプリ_exe版/</span>
+├ main_v2.exe              <span class="note">── PyInstallerでビルド</span>
+├ pdf_viewer_config.json
+├ <span class="dir">PDFファイル群/</span>
+├ 仕様書.pdf
+└ README_exe版.txt         <span class="note">── 起動手順</span>
+  </div>
+
+  <h3>📦 py版納品パッケージ（Raspberry Pi用）</h3>
+  <div class="tree">
+<span class="dir">品標表示アプリ_pi版/</span>
+├ main_v2.py
+├ app_config.py
+├ config_exe.py
+├ config_pi.py
+├ pdf_viewer_config.json
+├ <span class="dir">PDFファイル群/</span>
+├ requirements.txt          <span class="note">── PyMuPDF, Pillow</span>
+├ setup.sh                  <span class="note">── apt/pip 自動化</span>
+├ autostart.desktop         <span class="note">── LXDE自動起動設定</span>
+├ 仕様書.pdf
+└ README_pi版.txt           <span class="note">── セットアップ手順</span>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 04</div><div class="sec-title">動作確認チェックリスト（時間見積り付き）</div></div>
+  <div class="sec-lead">5カテゴリ計約30項目。各項目に推定所要時間を付記。<b>A→B→C→D→E</b> の順で進行する想定。</div>
+  <div class="sec-body">
+
+  <div class="summary">
+    <div><div class="label">A データ移行</div><div class="val">25-40<span class="unit">分</span></div></div>
+    <div><div class="label">B Pi対応実装</div><div class="val">50-80<span class="unit">分</span></div></div>
+    <div><div class="label">C 自動終了無効化</div><div class="val">10-20<span class="unit">分</span></div></div>
+    <div><div class="label">D 2バージョン管理</div><div class="val">25-40<span class="unit">分</span></div></div>
+    <div><div class="label">E 動作テスト</div><div class="val">30-50<span class="unit">分</span></div></div>
+  </div>
+
+  <div class="cl-group">
+    <div class="cl-head"><div class="cl-head-title">A. データ移行</div><div class="cl-head-time">25-40分</div></div>
+    <table class="cl-table">
+      <tr><td class="id">A-1</td><td class="body"><b>main_v2.py / pdf_viewer_config.json / 参照PDF</b> を USB or SCP で Piへ転送</td><td class="src">—</td><td class="time">10-15分</td></tr>
+      <tr><td class="id">A-2</td><td class="body"><code>sudo apt install python3-tk fonts-noto-cjk fonts-noto-color-emoji</code></td><td class="src">apt</td><td class="time">5-10分</td></tr>
+      <tr><td class="id">A-3</td><td class="body"><code>pip install PyMuPDF Pillow --break-system-packages</code>（arm64 wheel取得）</td><td class="src">pip</td><td class="time">5-10分</td></tr>
+      <tr><td class="id">A-4</td><td class="body">config.json の Windowsパスを Linuxパス（<code>/home/pi/...</code>）に書き換え</td><td class="src">config.json</td><td class="time">5分</td></tr>
+    </table>
+  </div>
+
+  <div class="cl-group">
+    <div class="cl-head"><div class="cl-head-title">B. Raspberry Pi対応（コード修正）</div><div class="cl-head-time">50-80分</div></div>
+    <table class="cl-table">
+      <tr><td class="id">B-1</td><td class="body"><code>app_config.py</code> 新規作成（sys.platform判定→ config_exe / config_pi 切替）</td><td class="src">新規</td><td class="time">5-10分</td></tr>
+      <tr><td class="id">B-2</td><td class="body">フォント定数化 → <code>Segoe UI</code> / <code>Segoe UI Emoji</code> を約30か所で <code>FONT_UI</code> / <code>FONT_EMOJI</code> に置換</td><td class="src">main_v2.py全体</td><td class="time">20-30分</td></tr>
+      <tr><td class="id">B-3</td><td class="body"><code>_fullscreen()</code> / <code>_exit_fullscreen()</code> の <code>state("zoomed")</code> を <code>FULLSCREEN_MODE</code> 参照に分岐</td><td class="src">L1047-1062, L2012</td><td class="time">10-15分</td></tr>
+      <tr><td class="id">B-4</td><td class="body">キーバインド動作確認（F11/Esc、単キー <code>r</code> はIME干渉の可能性検証）</td><td class="src">L849-857</td><td class="time">5-10分</td></tr>
+      <tr><td class="id">B-5</td><td class="body">Linuxのマウスホイール（<code>Button-4/5</code>）対応確認・必要なら追加</td><td class="src">L817-847</td><td class="time">10-20分</td></tr>
+    </table>
+  </div>
+
+  <div class="cl-group">
+    <div class="cl-head"><div class="cl-head-title">C. 自動終了無効化</div><div class="cl-head-time">10-20分</div></div>
+    <table class="cl-table">
+      <tr><td class="id">C-1</td><td class="body"><code>AUTO_EXIT_ENABLED</code> / <code>AUTO_EXIT_MS</code> を config側に切り出す</td><td class="src">L29-30</td><td class="time">5-10分</td></tr>
+      <tr><td class="id">C-2</td><td class="body"><code>_setup_idle_exit()</code> 呼び出し条件を新定数に差し替え（py版は無効化）</td><td class="src">L554-555, L2057-2094</td><td class="time">5-10分</td></tr>
+    </table>
+  </div>
+
+  <div class="cl-group">
+    <div class="cl-head"><div class="cl-head-title">D. 2バージョン管理対応</div><div class="cl-head-time">25-40分</div></div>
+    <table class="cl-table">
+      <tr><td class="id">D-1</td><td class="body"><code>config_exe.py</code> / <code>config_pi.py</code> 作成（7項目の定数差分）</td><td class="src">新規</td><td class="time">10-15分</td></tr>
+      <tr><td class="id">D-2</td><td class="body">既存 spec ファイル（main.spec / main_v2.spec）と build 成果物の整理・命名統一</td><td class="src">main_v2.spec</td><td class="time">10-15分</td></tr>
+      <tr><td class="id">D-3</td><td class="body">README_exe版.txt / README_pi版.txt / setup.sh / autostart.desktop 作成</td><td class="src">新規</td><td class="time">5-10分</td></tr>
+    </table>
+  </div>
+
+  <div class="cl-group">
+    <div class="cl-head"><div class="cl-head-title">E. 動作テスト（Pi実機）</div><div class="cl-head-time">30-50分</div></div>
+    <table class="cl-table">
+      <tr><td class="id">E-1</td><td class="body">起動・スプラッシュ表示</td><td class="src">L2101-2137</td><td class="time">2-3分</td></tr>
+      <tr><td class="id">E-2</td><td class="body">サイドバーの日本語・絵文字（✕✓➕➖🗑✏️🔄📄）が正しく表示</td><td class="src">UI全体</td><td class="time">3-5分</td></tr>
+      <tr><td class="id">E-3</td><td class="body">PDF読込・ページめくり（←/→・スワイプ）</td><td class="src">L897-928</td><td class="time">5分</td></tr>
+      <tr><td class="id">E-4</td><td class="body">ズーム（Ctrl+ホイール、➕➖ボタン）・パン操作</td><td class="src">L1026-1040</td><td class="time">5分</td></tr>
+      <tr><td class="id">E-5</td><td class="body">フルスクリーン切替（F11 / Esc）</td><td class="src">L1047-1062, L2012</td><td class="time">2-3分</td></tr>
+      <tr><td class="id">E-6</td><td class="body">タッチパネル接続時のタップ／スワイプ／ピンチ操作</td><td class="src">L834-847</td><td class="time">5-10分</td></tr>
+      <tr><td class="id">E-7</td><td class="body">ライブラリ編集（表示名変更・削除）</td><td class="src">L1530-1900</td><td class="time">3-5分</td></tr>
+      <tr><td class="id">E-8</td><td class="body">自動終了が無効化されている確認（数分放置）</td><td class="src">L2057-2094</td><td class="time">3-5分</td></tr>
+      <tr><td class="id">E-9</td><td class="body">設定保存・再起動後の <code>last_open</code> 復元動作</td><td class="src">L911-915, L547</td><td class="time">3-5分</td></tr>
+      <tr><td class="id">E-10</td><td class="body">終了動作・残プロセス確認</td><td class="src">—</td><td class="time">2-3分</td></tr>
+    </table>
+  </div>
+
+  <div class="total">
+    <div class="l">合計推定作業時間</div>
+    <div class="r">140 〜 230<span class="u">分（2.5〜4時間）</span></div>
+  </div>
+
+  <div class="callout green">
+    <div class="callout-title">時間配分のコツ</div>
+    <p>最も時間を食うのは <b>B-2（フォント置換 約30か所）</b> と <b>D-2（ファイル整理）</b>。先に <b>B-1 / B-3 / C</b> を済ませて起動確認 → フォント問題は後回しでも進行可能なので、<b>E-1〜E-5 までは2時間以内</b>に到達できる見込み。</p>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 05</div><div class="sec-title">着手順序</div></div>
+  <div class="sec-lead">承認後はこの順序で進める。各ステップ完了時に動作確認してから次へ。</div>
+  <div class="sec-body">
+
+  <div class="steps">
+    <div class="step"><div class="step-no">1</div><div class="step-body">データ移行（A-1〜A-4）<small>Piへファイル転送・依存ライブラリ・フォントインストール</small></div><div class="step-time">25-40分</div></div>
+    <div class="step"><div class="step-no">2</div><div class="step-body">設定モジュール作成（D-1, B-1）<small>app_config.py / config_exe.py / config_pi.py を新規作成</small></div><div class="step-time">15-25分</div></div>
+    <div class="step"><div class="step-no">3</div><div class="step-body">最小起動確認（B-3, C, E-1）<small>フルスクリーンと自動終了を先に直して、まず Pi で起動するところまで</small></div><div class="step-time">20-30分</div></div>
+    <div class="step"><div class="step-no">4</div><div class="step-body">フォント置換（B-2）<small>約30か所を一括置換、日本語・絵文字の表示確認</small></div><div class="step-time">20-30分</div></div>
+    <div class="step"><div class="step-no">5</div><div class="step-body">操作系の動作確認（B-4, B-5, E-3〜E-7）<small>キーバインド・ホイール・タッチ・ライブラリ編集</small></div><div class="step-time">25-40分</div></div>
+    <div class="step"><div class="step-no">6</div><div class="step-body">納品パッケージ整理（D-2, D-3）<small>spec / README / setup.sh / autostart 作成、フォルダを2つに分割</small></div><div class="step-time">15-25分</div></div>
+    <div class="step"><div class="step-no">7</div><div class="step-body">最終回帰テスト（E-8〜E-10）<small>常時表示で数分放置・設定復元・終了動作の総合確認</small></div><div class="step-time">10-15分</div></div>
+  </div>
+
+  <div class="callout">
+    <div class="callout-title">承認待ちの判断ポイント</div>
+    <p>採用案 <b>②（設定モジュール分離 + 両方納品パッケージ作成）</b> でよいか確認後、ステップ1から着手します。</p>
+  </div>
+  </div>
+</section>
+
+<footer>
+  品標表示アプリ 第3版 Raspberry Pi対応方針 ／ 2026-05-13 ／ アイシン高丘東北
+</footer>
+
+</div>
+</body>
+</html>
