@@ -109,6 +109,20 @@ pre .s{color:var(--green)}
 .step-body{flex:1;font-size:14px;font-weight:700;color:var(--ink)}
 .step-body small{display:block;font-size:12px;color:var(--ink3);font-weight:500;margin-top:2px}
 .step-time{flex-shrink:0;font-size:12px;font-weight:900;color:var(--green);padding:4px 10px;background:var(--bg3);border-radius:3px}
+.day{margin:18px 0;border:1px solid var(--line);background:var(--bg2)}
+.day-head{display:grid;grid-template-columns:90px 140px 1fr 110px;align-items:center;padding:18px 22px;background:linear-gradient(90deg,#3a2410,var(--bg3));border-bottom:1px solid var(--line)}
+.day-head-2{background:linear-gradient(90deg,#1a3424,var(--bg3))}
+.day-head-3{background:linear-gradient(90deg,#3a1f4a,var(--bg3))}
+.day-num{font-size:13px;font-weight:900;color:var(--orange);letter-spacing:.1em}
+.day-head-2 .day-num{color:var(--green)}
+.day-head-3 .day-num{color:#c084fc}
+.day-date{font-size:16px;font-weight:900;color:var(--ink)}
+.day-theme{font-size:13px;font-weight:700;color:var(--ink2);padding-left:8px;border-left:2px solid var(--line)}
+.day-time{font-size:13px;font-weight:900;color:var(--green);text-align:right}
+.day-body{padding:14px 0 18px}
+.time-cell{width:120px;font-family:"JetBrains Mono",monospace;font-weight:700;font-size:12px;color:var(--orange)}
+.goal{margin:14px 22px 4px;padding:12px 16px;background:var(--bg3);border-left:3px solid var(--green);font-size:13px;color:var(--ink);font-weight:500;border-radius:0 4px 4px 0}
+.goal-tag{display:inline-block;background:var(--green-d);color:#fff;font-weight:900;font-size:11px;padding:2px 8px;border-radius:3px;margin-right:10px;letter-spacing:.06em}
 footer{padding:32px 40px;color:var(--ink3);font-size:12px;text-align:center;font-weight:500}
 @media(max-width:760px){
   header{padding:24px 20px}
@@ -134,8 +148,8 @@ footer{padding:32px 40px;color:var(--ink3);font-size:12px;text-align:center;font
   <div class="meta">
     <span><b>BASE</b>main_v2.py (2,160行)</span>
     <span><b>TARGET</b>Raspberry Pi OS + Windows 10/11</span>
-    <span><b>DATE</b>2026-05-13</span>
-    <span><b>TOTAL EST.</b>2.5〜4時間</span>
+    <span><b>DATE</b>2026-05-14 更新</span>
+    <span><b>SCHEDULE</b>3営業日（5/14木 - 5/18月）</span>
   </div>
 </header>
 
@@ -363,8 +377,306 @@ footer{padding:32px 40px;color:var(--ink3);font-size:12px;text-align:center;font
   </div>
 </section>
 
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 06</div><div class="sec-title">3営業日スケジュール</div></div>
+  <div class="sec-lead">本日 <b>2026-05-14(木)</b> を Day 1 として、土日を挟んで <b>5/18(月)</b> 完了を目標。各日 2〜3時間想定で、バッファを含めて余裕を持たせた構成。</div>
+  <div class="sec-body">
+
+  <div class="day">
+    <div class="day-head">
+      <div class="day-num">DAY 1</div>
+      <div class="day-date">2026-05-14（木）</div>
+      <div class="day-theme">基盤構築 ─ 移行・設定モジュール・最小起動</div>
+      <div class="day-time">90-120分</div>
+    </div>
+    <div class="day-body">
+      <table class="cl-table">
+        <tr><td class="time-cell">09:00-09:30</td><td><b>A. データ移行</b> ─ Piへファイル転送、apt / pip インストール</td><td class="src">A-1〜A-4</td><td class="time">30分</td></tr>
+        <tr><td class="time-cell">09:30-10:00</td><td><b>B-1 / D-1.</b> app_config.py / config_exe.py / config_pi.py 作成</td><td class="src">新規3ファイル</td><td class="time">20-30分</td></tr>
+        <tr><td class="time-cell">10:00-10:45</td><td><b>B-3.</b> フルスクリーン分岐実装（state("zoomed") → attributes("-fullscreen")）</td><td class="src">L1047-1062, L2012</td><td class="time">15-20分</td></tr>
+        <tr><td class="time-cell">10:45-11:15</td><td><b>C-1 / C-2.</b> 自動終了の config 外部化、py版で無効化</td><td class="src">L29-30, L554-555</td><td class="time">10-20分</td></tr>
+        <tr><td class="time-cell">11:15-11:45</td><td><b>E-1 確認.</b> Pi実機で初回起動（フォントは□表示でもOK、起動到達確認）</td><td class="src">—</td><td class="time">15-20分</td></tr>
+      </table>
+      <div class="goal"><span class="goal-tag">GOAL</span>Piで「とりあえず起動して操作できる」状態を達成。フォントは未対応で良い。</div>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-head day-head-2">
+      <div class="day-num">DAY 2</div>
+      <div class="day-date">2026-05-15（金）</div>
+      <div class="day-theme">UI互換性 ─ 日本語・絵文字・操作系</div>
+      <div class="day-time">90-120分</div>
+    </div>
+    <div class="day-body">
+      <table class="cl-table">
+        <tr><td class="time-cell">09:00-10:00</td><td><b>B-2.</b> フォント定数化＆置換（"Segoe UI" 約30か所 → FONT_UI）</td><td class="src">main_v2.py全体</td><td class="time">30-50分</td></tr>
+        <tr><td class="time-cell">10:00-10:30</td><td><b>B-4 / B-5.</b> キーバインド・マウスホイール・タッチ動作確認</td><td class="src">L817-857</td><td class="time">15-30分</td></tr>
+        <tr><td class="time-cell">10:30-11:00</td><td><b>E-2〜E-5.</b> 日本語・絵文字・PDF・ズーム・フルスクリーン</td><td class="src">UI全体</td><td class="time">15-20分</td></tr>
+        <tr><td class="time-cell">11:00-11:30</td><td><b>E-6 / E-7.</b> タッチパネル操作・ライブラリ編集（接続環境に応じて）</td><td class="src">L834-839, L1530-</td><td class="time">10-15分</td></tr>
+      </table>
+      <div class="goal"><span class="goal-tag">GOAL</span>Pi版が見た目・操作とも実用品質。残課題のみメモして Day 3 に持ち越し。</div>
+    </div>
+  </div>
+
+  <div class="day">
+    <div class="day-head day-head-3">
+      <div class="day-num">DAY 3</div>
+      <div class="day-date">2026-05-18（月）</div>
+      <div class="day-theme">納品パッケージ整備 ─ ビルド・自動起動・最終確認</div>
+      <div class="day-time">90-120分</div>
+    </div>
+    <div class="day-body">
+      <table class="cl-table">
+        <tr><td class="time-cell">09:00-09:45</td><td><b>D-2.</b> exe版 PyInstaller ビルド（Windows側で <code>pyinstaller main_v2.spec</code>）</td><td class="src">main_v2.spec</td><td class="time">15-25分</td></tr>
+        <tr><td class="time-cell">09:45-10:15</td><td><b>D-3.</b> setup.sh / autostart.desktop / README_pi版.txt 作成</td><td class="src">新規</td><td class="time">15-20分</td></tr>
+        <tr><td class="time-cell">10:15-10:45</td><td><b>D-3.</b> README_exe版.txt 作成 + 納品フォルダを2つに整理</td><td class="src">新規</td><td class="time">10-20分</td></tr>
+        <tr><td class="time-cell">10:45-11:30</td><td><b>E-8〜E-10.</b> 総合回帰テスト（常時表示・設定復元・終了動作）</td><td class="src">—</td><td class="time">15-30分</td></tr>
+        <tr><td class="time-cell">11:30-12:00</td><td>納品ZIPパッケージ作成・受け渡し準備</td><td class="src">—</td><td class="time">10-15分</td></tr>
+      </table>
+      <div class="goal"><span class="goal-tag">GOAL</span>納品可能な exe版 / py版 の2パッケージが完成。先方へ受け渡し可能。</div>
+    </div>
+  </div>
+
+  <h3>リスクとバッファ</h3>
+  <table>
+    <thead><tr><th style="width:160px">想定リスク</th><th>事象</th><th style="width:200px">対応</th></tr></thead>
+    <tbody>
+    <tr><td>arm64 wheel不在</td><td>PyMuPDF が Pi で pip install できない（古い OS の場合）</td><td>OS を Bookworm にする / <code>apt install python3-fitz</code> 代替</td></tr>
+    <tr><td>フォント代替</td><td>Noto CJK でも一部絵文字が表示されない</td><td>絵文字のみ Unicode シンボル（▲▼+−）に置換</td></tr>
+    <tr><td>タッチ未認識</td><td>X11 が TouchBegin を発火しない</td><td>マウスエミュレーションとして B1-Motion で代替（既存実装あり）</td></tr>
+    <tr><td>フルスクリーン残留</td><td>Esc押下後にタスクバーが出ない</td><td>LXDE の panel.conf で autohide 設定</td></tr>
+    <tr><td>進捗遅延</td><td>Day 1 で起動到達せず</td><td>Day 2 を Day 1.5 として吸収、フォント対応は Day 3 へ後ろ倒し</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 07</div><div class="sec-title">手順書 ─ コマンドと実装スニペット</div></div>
+  <div class="sec-lead">各日の作業をコピペで進められるレベルに分解。コマンドは Pi 上で実行する想定（Windows 作業は明記）。</div>
+  <div class="sec-body">
+
+  <h3>Day 1 / Step 1 ─ ファイル転送</h3>
+  <h4>選択肢A：USB（推奨／簡単）</h4>
+  <ol>
+    <li>Windows 側で <code>C:\Users\myuda\aisin-takaoka-tohoku-all\03_アプリ開発\品標表示アプリ\</code> から下記を USB にコピー
+      <ul>
+        <li><code>main_v2.py</code></li>
+        <li><code>pdf_viewer_config.json</code></li>
+        <li>参照している PDF ファイル一式（config 内で指定されているもの）</li>
+        <li><code>仕様書.pdf</code></li>
+      </ul>
+    </li>
+    <li>USBをPiに挿し、ファイラから <code>/home/pi/品標表示アプリ/</code> へコピー</li>
+  </ol>
+
+  <h4>選択肢B：SCP（同一LANにPiがいる場合）</h4>
+  <pre><span class="c"># Windows PowerShell から実行（Pi の IP は事前確認）</span>
+scp -r "C:\Users\myuda\aisin-takaoka-tohoku-all\03_アプリ開発\品標表示アプリ\*" pi@<span class="k">192.168.x.x</span>:<span class="s">~/品標表示アプリ/</span></pre>
+
+  <h3>Day 1 / Step 2 ─ 依存ライブラリインストール</h3>
+  <pre><span class="c"># Pi のターミナルで実行</span>
+sudo apt update
+sudo apt install -y python3-tk python3-pip fonts-noto-cjk fonts-noto-color-emoji
+pip install PyMuPDF Pillow --break-system-packages
+
+<span class="c"># 確認</span>
+python3 -c <span class="s">"import fitz, PIL, tkinter; print('OK')"</span></pre>
+
+  <h3>Day 1 / Step 3 ─ app_config.py 作成</h3>
+  <pre><span class="c"># /home/pi/品標表示アプリ/app_config.py（新規作成）</span>
+<span class="k">import</span> sys
+
+<span class="k">if</span> sys.platform.startswith(<span class="s">"linux"</span>):
+    <span class="k">from</span> config_pi <span class="k">import</span> *
+<span class="k">else</span>:
+    <span class="k">from</span> config_exe <span class="k">import</span> *</pre>
+
+  <h4>config_exe.py（新規作成）</h4>
+  <pre>AUTO_EXIT_ENABLED = <span class="k">True</span>
+AUTO_EXIT_MS = 60 * 1000
+FONT_UI = <span class="s">"Segoe UI"</span>
+FONT_EMOJI = <span class="s">"Segoe UI Emoji"</span>
+FULLSCREEN_MODE = <span class="s">"zoomed"</span>
+ENABLE_DPI_AWARE = <span class="k">True</span>
+APP_VARIANT = <span class="s">"exe"</span></pre>
+
+  <h4>config_pi.py（新規作成）</h4>
+  <pre>AUTO_EXIT_ENABLED = <span class="k">False</span>
+AUTO_EXIT_MS = 0
+FONT_UI = <span class="s">"Noto Sans CJK JP"</span>
+FONT_EMOJI = <span class="s">"Noto Color Emoji"</span>
+FULLSCREEN_MODE = <span class="s">"fullscreen"</span>
+ENABLE_DPI_AWARE = <span class="k">False</span>
+APP_VARIANT = <span class="s">"pi"</span></pre>
+
+  <h3>Day 1 / Step 4 ─ main_v2.py の修正（フルスクリーン）</h3>
+  <p><b>変更前 L1047-1062 付近 / L2012 付近</b></p>
+  <pre><span class="k">def</span> _fullscreen(self):
+    is_zoomed = (self.root.state() == <span class="s">"zoomed"</span>)
+    <span class="k">if not</span> is_zoomed:
+        self.root.state(<span class="s">"zoomed"</span>)
+    <span class="k">else</span>:
+        self.root.state(<span class="s">"normal"</span>)</pre>
+  <p><b>変更後</b></p>
+  <pre><span class="k">from</span> app_config <span class="k">import</span> FULLSCREEN_MODE
+
+<span class="k">def</span> _fullscreen(self):
+    <span class="k">if</span> FULLSCREEN_MODE == <span class="s">"fullscreen"</span>:
+        cur = self.root.attributes(<span class="s">"-fullscreen"</span>)
+        self.root.attributes(<span class="s">"-fullscreen"</span>, <span class="k">not</span> cur)
+    <span class="k">else</span>:
+        is_zoomed = (self.root.state() == <span class="s">"zoomed"</span>)
+        self.root.state(<span class="s">"normal"</span> <span class="k">if</span> is_zoomed <span class="k">else</span> <span class="s">"zoomed"</span>)
+
+<span class="k">def</span> _exit_fullscreen(self):
+    <span class="k">if</span> FULLSCREEN_MODE == <span class="s">"fullscreen"</span>:
+        self.root.attributes(<span class="s">"-fullscreen"</span>, <span class="k">False</span>)
+    <span class="k">else</span>:
+        self.root.state(<span class="s">"normal"</span>)</pre>
+
+  <h3>Day 1 / Step 5 ─ 自動終了の無効化</h3>
+  <p>L29-30 のハードコード定数を削除し、代わりに app_config から読み込む</p>
+  <pre><span class="c"># 削除</span>
+AUTO_EXIT_ENABLED = <span class="k">True</span>
+AUTO_EXIT_MS = 60 * 1000
+
+<span class="c"># 追加（ファイル冒頭の import 直後）</span>
+<span class="k">from</span> app_config <span class="k">import</span> AUTO_EXIT_ENABLED, AUTO_EXIT_MS</pre>
+
+  <h3>Day 1 / Step 6 ─ 初回起動</h3>
+  <pre>cd ~/品標表示アプリ
+python3 main_v2.py</pre>
+  <p>エラーで落ちる場合はトレースを <code>error.log</code> に書き出して Day 2 朝に確認。フォント警告は無視で OK。</p>
+
+  <h3>Day 2 / Step 1 ─ フォント置換（一括）</h3>
+  <p>main_v2.py の冒頭に追加</p>
+  <pre><span class="k">from</span> app_config <span class="k">import</span> FONT_UI, FONT_EMOJI</pre>
+  <p>VSCode の「すべて置換」または sed で実施</p>
+  <pre><span class="c"># Pi上で sed を使う場合（バックアップ自動生成）</span>
+sed -i.bak <span class="s">'s/"Segoe UI Emoji"/FONT_EMOJI/g'</span> main_v2.py
+sed -i <span class="s">'s/"Segoe UI"/FONT_UI/g'</span> main_v2.py
+
+<span class="c"># 確認</span>
+grep -n <span class="s">"Segoe UI"</span> main_v2.py  <span class="c"># → 何も出なければ完了</span></pre>
+  <p>※ 置換後は <code>font=(FONT_UI, 16, "bold")</code> という形式になる。文字列のままだと壊れる箇所（あれば手動修正）</p>
+
+  <h3>Day 2 / Step 2 ─ 操作系の動作確認チェック</h3>
+  <ul>
+    <li>←/→ でページめくり</li>
+    <li>F11 でフルスクリーン、Esc で解除</li>
+    <li>マウスホイールでスクロール、Ctrl+ホイールでズーム</li>
+    <li>r キーで回転（IME が干渉する場合は要対応）</li>
+  </ul>
+
+  <h3>Day 3 / Step 1 ─ exe版 ビルド（Windows）</h3>
+  <pre><span class="c"># Windows PowerShell で実行</span>
+cd <span class="s">"C:\Users\myuda\aisin-takaoka-tohoku-all\03_アプリ開発\品標表示アプリ"</span>
+pyinstaller main_v2.spec --clean
+
+<span class="c"># dist/main_v2.exe が生成される</span></pre>
+
+  <h3>Day 3 / Step 2 ─ setup.sh 作成（Pi版同梱）</h3>
+  <pre><span class="c">#!/bin/bash</span>
+<span class="c"># setup.sh ─ Raspberry Pi 初期セットアップ自動化</span>
+set -e
+
+sudo apt update
+sudo apt install -y python3-tk python3-pip \
+  fonts-noto-cjk fonts-noto-color-emoji
+pip install PyMuPDF Pillow --break-system-packages
+
+echo <span class="s">"セットアップ完了。python3 main_v2.py で起動します。"</span></pre>
+
+  <h3>Day 3 / Step 3 ─ autostart.desktop 作成（自動起動）</h3>
+  <pre><span class="c"># ~/.config/autostart/品標表示.desktop に配置</span>
+[Desktop Entry]
+Type=Application
+Name=品標表示アプリ
+Exec=/usr/bin/python3 /home/pi/品標表示アプリ/main_v2.py
+X-GNOME-Autostart-enabled=true</pre>
+  <p>配置コマンド</p>
+  <pre>mkdir -p ~/.config/autostart
+cp 品標表示.desktop ~/.config/autostart/</pre>
+
+  <h3>Day 3 / Step 4 ─ 納品パッケージング</h3>
+  <pre><span class="c"># exe版</span>
+品標表示アプリ_exe版_v3.0/
+  main_v2.exe
+  pdf_viewer_config.json
+  PDFファイル群/
+  仕様書.pdf
+  README_exe版.txt
+  → ZIP化
+
+<span class="c"># py版</span>
+品標表示アプリ_pi版_v3.0/
+  main_v2.py
+  app_config.py
+  config_exe.py
+  config_pi.py
+  setup.sh
+  品標表示.desktop
+  requirements.txt
+  pdf_viewer_config.json
+  PDFファイル群/
+  仕様書.pdf
+  README_pi版.txt
+  → ZIP化</pre>
+
+  <h3>Day 3 / Step 5 ─ requirements.txt</h3>
+  <pre>PyMuPDF>=1.23.0
+Pillow>=10.0.0</pre>
+
+  <h3>Day 3 / Step 6 ─ README テンプレート</h3>
+  <h4>README_exe版.txt</h4>
+  <pre>■ 品標表示アプリ 第3版（exe版）
+
+【起動方法】
+main_v2.exe をダブルクリック
+
+【操作】
+・F11 ─ フルスクリーン切替
+・Esc ─ フルスクリーン解除
+・← / → ─ ページめくり
+・Ctrl + マウスホイール ─ ズーム
+・r ─ 回転
+
+【自動終了】
+無操作1分で自動終了します。
+
+【設定ファイル】
+pdf_viewer_config.json（exeと同じフォルダ）</pre>
+
+  <h4>README_pi版.txt</h4>
+  <pre>■ 品標表示アプリ 第3版（Raspberry Pi版）
+
+【初回セットアップ】
+ターミナルで以下を実行
+  cd ~/品標表示アプリ
+  bash setup.sh
+
+【手動起動】
+  python3 main_v2.py
+
+【自動起動の有効化】
+  mkdir -p ~/.config/autostart
+  cp 品標表示.desktop ~/.config/autostart/
+  → Pi 再起動後、自動でアプリが立ち上がります
+
+【操作】
+・F11 ─ フルスクリーン切替
+・Esc ─ フルスクリーン解除
+・← / → ─ ページめくり
+
+【常時表示運用】
+自動終了は無効化されています。電源OFFまで起動し続けます。</pre>
+  </div>
+</section>
+
 <footer>
-  品標表示アプリ 第3版 Raspberry Pi対応方針 ／ 2026-05-13 ／ アイシン高丘東北
+  品標表示アプリ 第3版 Raspberry Pi対応方針 ／ 2026-05-14 更新 ／ アイシン高丘東北
 </footer>
 
 </div>
