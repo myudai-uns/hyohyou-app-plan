@@ -715,14 +715,21 @@ pdf_viewer_config.json（exeと同じフォルダ）</pre>
     </tbody>
   </table>
 
-  <h3>📂 納品物の現在の場所（各版1ファイル構成）</h3>
+  <h3>📂 納品物の現在の場所</h3>
   <div class="tree">
 <span class="dir">C:\Users\myuda\aisin-takaoka-tohoku-all\03_アプリ開発\品標表示アプリ\納品物\</span>
 ├ <span class="dir">品標表示アプリ_exe版_v3.0/</span>
 │  └ 品標表示アプリ.exe         <span class="note">── 53.9 MB（自己完結 exe）</span>
 └ <span class="dir">品標表示アプリ_pi版_v3.0/</span>
-   └ main_v3.py                <span class="note">── 約75KB（setup・autostart 機能内蔵）</span>
+   ├ main_v3.py                <span class="note">── 約75KB（setup・autostart 機能内蔵）</span>
+   └ <span class="dir">PDF/</span>                       <span class="note">── 動作確認用サンプル（計約 40KB）</span>
+      ├ サンプル品標01.pdf       <span class="note">── 4ページ・基本仕様書</span>
+      ├ サンプル品標02.pdf       <span class="note">── 3ページ・検査基準書</span>
+      └ テスト資料.pdf           <span class="note">── 2ページ・動作確認チェックリスト</span>
   </div>
+
+  <h3>🛠 サンプルPDF生成スクリプト</h3>
+  <p>追加・差し替えがあれば <code>_dev_tools/generate_sample_pdfs.py</code> を編集して再実行。fitz内蔵CIDフォント "japan" を使うのでPDF1枚あたり数KB〜十数KBに収まる。</p>
 
   <h3>🔧 main_v3.py に埋め込んだ機能（.sh / .desktop を内蔵化）</h3>
   <table>
