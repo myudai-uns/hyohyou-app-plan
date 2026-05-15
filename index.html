@@ -146,9 +146,9 @@ footer{padding:32px 40px;color:var(--ink3);font-size:12px;text-align:center;font
   <div class="kicker">CLIENT / アイシン高丘東北 — APP / 品標表示アプリ 第3版</div>
   <h1>Raspberry Pi対応 実装方針＆動作確認チェックリスト<span class="sub">main_v2.py を py版（Pi常時表示）と exe版（Windows）両方納品する構成</span></h1>
   <div class="meta">
-    <span><b>BASE</b>main_v3.py (派生)</span>
+    <span><b>BASE</b>main_v3.py（自己完結型）</span>
     <span><b>TARGET</b>Raspberry Pi OS + Windows 10/11</span>
-    <span><b>DATE</b>2026-05-15 進捗反映</span>
+    <span><b>DELIVERY</b>各版1ファイルのみ</span>
     <span><b>STATUS</b>Windows側作業 完了 / Pi実機検証 待ち</span>
   </div>
 </header>
@@ -705,39 +705,38 @@ pdf_viewer_config.json（exeと同じフォルダ）</pre>
     <p>以下はClaudeから実行できないため、Pi実機にアクセスして対応が必要です。</p>
   </div>
   <table>
-    <thead><tr><th style="width:80px">項目</th><th>内容</th><th style="width:220px">コマンド／手順</th></tr></thead>
+    <thead><tr><th style="width:80px">項目</th><th>内容</th><th style="width:260px">コマンド／手順</th></tr></thead>
     <tbody>
-    <tr><td><span class="tag tag-warn">待</span></td><td>納品物フォルダ <code>品標表示アプリ_pi版_v3.0/</code> を Pi に転送</td><td>USB or scp</td></tr>
-    <tr><td><span class="tag tag-warn">待</span></td><td>初回セットアップ実行</td><td><code>bash setup.sh</code></td></tr>
+    <tr><td><span class="tag tag-warn">待</span></td><td>main_v3.py を Pi に転送（1ファイルだけ）</td><td>USB or <code>scp main_v3.py pi@x.x.x.x:~/</code></td></tr>
+    <tr><td><span class="tag tag-warn">待</span></td><td>初回セットアップ実行（依存・自動起動を一括）</td><td><code>python3 main_v3.py --setup</code></td></tr>
     <tr><td><span class="tag tag-warn">待</span></td><td>起動テスト</td><td><code>python3 main_v3.py</code></td></tr>
     <tr><td><span class="tag tag-warn">待</span></td><td>動作確認（E-1〜E-10）</td><td>SEC 04 参照</td></tr>
-    <tr><td><span class="tag tag-warn">待</span></td><td>config.json 内のPDFパスをLinux形式に書き換え</td><td><code>nano pdf_viewer_config.json</code></td></tr>
-    <tr><td><span class="tag tag-warn">待</span></td><td>自動起動設定（任意・常時表示運用時）</td><td><code>cp 品標表示.desktop ~/.config/autostart/</code></td></tr>
     <tr><td><span class="tag tag-warn">待</span></td><td>納品物2フォルダの ZIP 化</td><td>Pi検証OK後</td></tr>
     </tbody>
   </table>
 
-  <h3>📂 納品物の現在の場所</h3>
+  <h3>📂 納品物の現在の場所（各版1ファイル構成）</h3>
   <div class="tree">
 <span class="dir">C:\Users\myuda\aisin-takaoka-tohoku-all\03_アプリ開発\品標表示アプリ\納品物\</span>
 ├ <span class="dir">品標表示アプリ_exe版_v3.0/</span>
-│  ├ 品標表示アプリ.exe         <span class="note">── 53.9 MB</span>
-│  ├ pdf_viewer_config.json
-│  ├ 仕様書.pdf
-│  └ README.txt
+│  └ 品標表示アプリ.exe         <span class="note">── 53.9 MB（自己完結 exe）</span>
 └ <span class="dir">品標表示アプリ_pi版_v3.0/</span>
-   ├ main_v3.py
-   ├ requirements.txt
-   ├ setup.sh
-   ├ 品標表示.desktop
-   ├ pdf_viewer_config.json
-   ├ 仕様書.pdf
-   └ README.txt
+   └ main_v3.py                <span class="note">── 約75KB（setup・autostart 機能内蔵）</span>
   </div>
+
+  <h3>🔧 main_v3.py に埋め込んだ機能（.sh / .desktop を内蔵化）</h3>
+  <table>
+    <thead><tr><th style="width:260px">コマンド</th><th>動作</th><th style="width:120px">代替するもの</th></tr></thead>
+    <tbody>
+    <tr><td><code>python3 main_v3.py</code></td><td>通常起動</td><td>—</td></tr>
+    <tr><td><code>python3 main_v3.py --setup</code></td><td>apt install + pip install + 自動起動設定 を一括実行</td><td>setup.sh 不要</td></tr>
+    <tr><td><code>python3 main_v3.py --install-autostart</code></td><td>~/.config/autostart/品標表示.desktop だけを生成</td><td>.desktop 不要</td></tr>
+    </tbody>
+  </table>
 
   <div class="callout green">
     <div class="callout-title">Pi検証で問題なければ即納品可能</div>
-    <p>Windows側の作業は全て完了。動作確認で問題が見つかった場合のみ追加修正が発生する想定。</p>
+    <p>納品物は <b>main_v3.py 1ファイル</b>。受領後は <code>python3 main_v3.py --setup</code> だけで全環境構築が完了する。pdf_viewer_config.json は初回起動時に自動生成される。</p>
   </div>
   </div>
 </section>
