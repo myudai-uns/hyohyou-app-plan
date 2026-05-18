@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>品標表示アプリ 第3版 リリースノート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffffff;
+  --bg2:#f8fafc;
+  --bg3:#eef2f6;
+  --line:#dde3ea;
+  --ink:#0f172a;
+  --ink2:#334155;
+  --ink3:#64748b;
+  --orange:#ea580c;
+  --orange-d:#c2410c;
+  --green:#16a34a;
+  --green-d:#15803d;
+  --red:#dc2626;
+  --yellow:#ca8a04;
+  --purple:#9333ea;
+  --blue:#2563eb;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",sans-serif;font-weight:500;-webkit-font-smoothing:antialiased}
+code,kbd,pre{font-family:"JetBrains Mono","Noto Sans JP",monospace;font-weight:500}
+body{padding:0 0 40px}
+.wrap{max-width:1100px;margin:0 auto}
+header{background:var(--bg2);padding:20px 24px 18px;border-bottom:3px solid var(--orange)}
+.kicker{font-size:11px;font-weight:700;color:var(--orange);letter-spacing:.1em}
+h1{font-size:28px;font-weight:900;line-height:1.2;margin-top:4px;letter-spacing:-.01em}
+h1 .sub{display:block;font-size:14px;font-weight:700;color:var(--ink2);margin-top:4px}
+.meta{margin-top:12px;display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink3);font-weight:700}
+.meta span b{color:var(--green);font-weight:900;margin-right:4px}
+.version-jump{display:flex;align-items:center;gap:14px;margin-top:14px;padding:12px 16px;background:var(--bg3);border-radius:6px;font-weight:900;font-size:14px}
+.v-box{padding:6px 14px;border-radius:4px;font-weight:900}
+.v-old{background:var(--ink3);color:#fff}
+.v-arrow{font-size:18px;color:var(--orange)}
+.v-new{background:var(--orange);color:#fff}
+.v-meta{flex:1;text-align:right;font-size:11px;color:var(--ink2);font-weight:700}
+section{padding:0}
+.sec{margin:0;border-bottom:1px solid var(--line);background:var(--bg)}
+.sec-head{padding:20px 24px 8px;display:flex;align-items:baseline;gap:12px}
+.sec-icon{font-size:24px;width:36px;text-align:center}
+.sec-title{font-size:20px;font-weight:900;letter-spacing:-.01em}
+.sec-count{margin-left:auto;font-size:11px;background:var(--bg3);color:var(--ink2);padding:3px 10px;border-radius:3px;font-weight:900}
+.sec-body{padding:0 24px 24px}
+.item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
+.item:last-child{border-bottom:none}
+.item-tag{flex-shrink:0;font-size:9px;font-weight:900;padding:3px 8px;border-radius:3px;letter-spacing:.06em;height:fit-content;margin-top:3px;min-width:60px;text-align:center}
+.tag-new{background:#dcfce7;color:var(--green-d)}
+.tag-fix{background:#fee2e2;color:var(--red)}
+.tag-upd{background:#dbeafe;color:var(--blue)}
+.tag-int{background:#f3e8ff;color:var(--purple)}
+.item-body{flex:1;min-width:0}
+.item-title{font-size:14px;font-weight:900;color:var(--ink);line-height:1.4}
+.item-detail{font-size:12px;color:var(--ink2);margin-top:4px;line-height:1.65;font-weight:500}
+.item-detail b{color:var(--ink);font-weight:700}
+.item-detail code{background:var(--bg3);color:var(--orange);padding:1px 5px;border-radius:2px;font-size:11px}
+.item-detail .why{display:block;margin-top:4px;color:var(--ink3);font-size:11px}
+.item-detail .why::before{content:"理由: ";color:var(--orange);font-weight:900}
+table{width:100%;border-collapse:collapse;margin:8px 0;font-size:12px;background:var(--bg);border-radius:4px;overflow:hidden;border:1px solid var(--line)}
+th,td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--bg3);font-weight:900;color:var(--ink);font-size:11px;letter-spacing:.04em}
+td code{background:var(--bg3);color:var(--orange);padding:1px 5px;border-radius:2px;font-size:11px}
+.summary{margin:18px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.summary-cell{background:var(--bg2);padding:14px 16px;border-radius:6px;border-left:4px solid var(--orange)}
+.summary-cell.new{border-color:var(--green)}
+.summary-cell.fix{border-color:var(--red)}
+.summary-cell.upd{border-color:var(--blue)}
+.summary-cell.int{border-color:var(--purple)}
+.summary-num{font-size:28px;font-weight:900;color:var(--ink)}
+.summary-label{font-size:11px;color:var(--ink3);font-weight:700;margin-top:2px}
+.note{background:var(--bg2);border-left:4px solid var(--orange);padding:12px 16px;margin:12px 24px;border-radius:0 6px 6px 0}
+.note-title{font-weight:900;font-size:12px;color:var(--orange);margin-bottom:4px;letter-spacing:.04em}
+.note p{font-size:12px;line-height:1.6;color:var(--ink)}
+.note.green{border-color:var(--green)}
+.note.green .note-title{color:var(--green)}
+pre{background:var(--bg2);color:var(--ink);padding:10px 14px;border-radius:4px;font-size:11px;line-height:1.6;overflow-x:auto;margin:8px 0;border:1px solid var(--line)}
+pre .c{color:var(--ink3)}
+pre .k{color:var(--orange);font-weight:700}
+pre .s{color:var(--green)}
+footer{padding:18px 24px;color:var(--ink3);font-size:11px;text-align:center;font-weight:500}
+@media(max-width:760px){
+  header{padding:14px}
+  h1{font-size:22px}
+  .summary{grid-template-columns:1fr 1fr;margin:14px}
+  .sec-head{padding:14px 14px 4px;flex-wrap:wrap}
+  .sec-body{padding:0 14px 16px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">CLIENT / アイシン高丘東北 — APP / 品標表示アプリ</div>
+  <h1>リリースノート<span class="sub">第2版 → 第3版（v2 → v3.0.1）の変更点</span></h1>
+  <div class="meta">
+    <span><b>RELEASE</b>v3.0.1</span>
+    <span><b>DATE</b>2026-05-18</span>
+    <span><b>LINES</b>2,160 → 2,430 行（+270）</span>
+    <span><b>VENDOR</b>株式会社 Unsee</span>
+  </div>
+  <div class="version-jump">
+    <div class="v-box v-old">第2版</div>
+    <div class="v-arrow">→</div>
+    <div class="v-box v-new">第3版（v3.0.1）</div>
+    <div class="v-meta">Windows 専用 → Windows ＋ Raspberry Pi 両対応</div>
+  </div>
+</header>
+
+<div class="summary">
+  <div class="summary-cell new">
+    <div class="summary-num">9</div>
+    <div class="summary-label">新機能</div>
+  </div>
+  <div class="summary-cell upd">
+    <div class="summary-num">12</div>
+    <div class="summary-label">UI/UX 改善</div>
+  </div>
+  <div class="summary-cell fix">
+    <div class="summary-num">7</div>
+    <div class="summary-label">バグ修正</div>
+  </div>
+  <div class="summary-cell int">
+    <div class="summary-num">5</div>
+    <div class="summary-label">内部変更</div>
+  </div>
+</div>
+
+<div class="note green">
+  <div class="note-title">★ ハイライト</div>
+  <p>第3版では <b>Raspberry Pi（Linux）対応</b>を実現し、Windows / Pi 両OSで同一機能を提供します。Pi 版は「常時表示用」として自動起動・自動終了無効化に対応。ライブラリ最大20件・タッチパネル操作にも対応した、製造ラインでの常設運用に最適化されたバージョンです。</p>
+</div>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-icon">🎯</div><div class="sec-title">新機能</div><div class="sec-count">9件</div></div>
+  <div class="sec-body">
+
+  <div class="item">
+    <div class="item-tag tag-new">NEW</div>
+    <div class="item-body">
+      <div class="item-title">Raspberry Pi (Linux) 対応</div>
+      <div class="item-detail">起動時に <code>sys.platform</code> を判定し、OS別に動作を自動切替。Windows / Pi の両環境で同一の <code>main_v3.py</code> が動作します。<span class="why">第2版は Windows 専用で、Pi では起動できなかった</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-new">NEW</div>
+    <div class="item-body">
+      <div class="item-title">Pi 版自動セットアップ機能を内蔵</div>
+      <div class="item-detail"><code>python3 main_v3.py --setup</code> で apt install (日本語フォント・GUI ライブラリ) + pip install (PyMuPDF, Pillow) + 自動起動設定を一括実行。<code>--install-autostart</code> で自動起動のみ設定も可。<span class="why">.sh / .desktop ファイルを別途配布しなくても、py ファイル1つで完結する</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-new">NEW</div>
+    <div class="item-body">
+      <div class="item-title">常時表示モード（Pi 版・自動終了無効）</div>
+      <div class="item-detail">Pi 版では <code>AUTO_EXIT_ENABLED = False</code> を自動設定し、無操作でも電源OFFまで起動し続ける。<span class="why">製造ラインでの常設運用に必要</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-new">NEW</div>
+    <div class="item-body">
+      <div class="item-title">フォント自動切替（OS別）</div>
+      <div class="item-detail">Windows = Segoe UI / Segoe UI Emoji、Pi = Noto Sans CJK JP / Noto Color Emoji を自動選択。約30箇所のフォント指定を変数化。<span class="why">Pi に Segoe UI が無いため、第2版は Pi で日本語が□表示になる</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-new">NEW</div>
+    <div class="item-body">
+      <div class="item-title">フルスクリーン方式の OS 別実装</div>
+      <div class="item-detail">Windows = <code>state("zoomed")</code>、Linux = <code>attributes("-fullscreen", True)</code> を自動選択。<span class="why">Tk の "zoomed" state は Windows 限定で、Linux では例外発生する</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-new">NEW</div>
+    <div class="item-body">
+      <div class="item-title">相対パスでの PDF 指定対応</div>
+      <div class="item-detail">設定ファイル内のPDF パスが相対パス（<code>PDF/sample_01.pdf</code> 等）でも、実行ファイルと同じフォルダ基準で解決される。<span class="why">exe を別フォルダにコピーしても PDF が見つかる</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-new">NEW</div>
+    <div class="item-body">
+      <div class="item-title">2バージョン納品体制</div>
+      <div class="item-detail">単一ソース <code>main_v3.py</code> から、Windows 用 exe 版と Pi 用 py 版を生成。納品時はそれぞれ独立フォルダ（<code>hinpyo_exe_v3.0/</code> ／ <code>hinpyo_pi_v3.0/</code>）に配置。<span class="why">先方の要望「両方納品」に対応しつつ、開発側は1ソース管理で効率化</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-new">NEW</div>
+    <div class="item-body">
+      <div class="item-title">動作確認用サンプルPDF 20件を同梱</div>
+      <div class="item-detail">納品物に各種設計仕様書を模した品標 20件を同梱。実運用時は正式な品標 PDF と差し替え。<span class="why">第2版は PDF 別途用意が必要だった</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-new">NEW</div>
+    <div class="item-body">
+      <div class="item-title">事前設定済み config.json</div>
+      <div class="item-detail">納品物に 20スロット登録済みの設定ファイルを同梱。初回起動時から全PDFがサイドバーに表示される。<span class="why">初期セットアップの手間を削減</span></div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-icon">✨</div><div class="sec-title">UI / UX 改善</div><div class="sec-count">12件</div></div>
+  <div class="sec-body">
+
+  <table>
+    <thead><tr><th style="width:180px">項目</th><th style="width:180px">第2版</th><th>第3版</th></tr></thead>
+    <tbody>
+    <tr><td><b>サイドバー幅</b></td><td><code>320px</code></td><td><code>380px</code>（+60px・カード文字が読みやすい）</td></tr>
+    <tr><td><b>スクロールバー</b></td><td>細い ttk 標準（約10px）</td><td><b>太い 28px</b>（clam テーマ＋カスタムスタイル）＋▲▼矢印</td></tr>
+    <tr><td><b>設定ボタン</b></td><td>円形 36×36px（⚙️アイコン）</td><td><b>角丸矩形 136×34px「設定」テキスト</b></td></tr>
+    <tr><td><b>右上ツールバー</b></td><td>円形 36×36 ×6個</td><td><b>角丸矩形 64×44 ×6個</b>（タッチ操作対応）</td></tr>
+    <tr><td><b>ツールバー高さ</b></td><td>65px</td><td>72px（ボタン拡大に伴う調整）</td></tr>
+    <tr><td><b>全画面表示ボタン</b></td><td>290px 幅</td><td><b>348px 幅</b>（他行と幅統一）</td></tr>
+    <tr><td><b>ボタン枠線</b></td><td>1px 薄グレー</td><td><b>2px ダークグレー outline</b>（視認性向上・Wayland 対応）</td></tr>
+    <tr><td><b>絵文字フォントサイズ</b></td><td>13pt</td><td>16pt（ボタン拡大に合わせて拡大）</td></tr>
+    <tr><td><b>ボタン間隔</b></td><td>3px</td><td>4px</td></tr>
+    </tbody>
+  </table>
+
+  <div class="item">
+    <div class="item-tag tag-upd">UPD</div>
+    <div class="item-body">
+      <div class="item-title">PDF表示位置を表示領域中央に最適化</div>
+      <div class="item-detail">canvas（メインビュー）の中央に PDF が描画される。サイドバーから右側の領域で左右の余白が均等。<span class="why">サイドバー拡大後も視覚的バランスを維持</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-upd">UPD</div>
+    <div class="item-body">
+      <div class="item-title">マウスホイールズームの Linux 対応</div>
+      <div class="item-detail">Pi (X11/Wayland) では <code>Control-Button-4/5</code> イベントを追加バインド。<code>e.delta</code> と <code>e.num</code> の両判定に対応。Shift+ホイールも追加。<span class="why">第2版は Windows 専用イベント <code>Control-MouseWheel</code> のみで、Pi では Ctrl+ホイールが反応しなかった</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-upd">UPD</div>
+    <div class="item-body">
+      <div class="item-title">タイトル「PDFビューア」ロゴ位置調整</div>
+      <div class="item-detail">設定ボタンが矩形化したため、ロゴ横のレイアウトを再配置</div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-icon">🐛</div><div class="sec-title">バグ修正</div><div class="sec-count">7件</div></div>
+  <div class="sec-body">
+
+  <div class="item">
+    <div class="item-tag tag-fix">FIX</div>
+    <div class="item-body">
+      <div class="item-title">Pi 版の意図しない自動終了を修正（重要）</div>
+      <div class="item-detail"><code>_reset_idle_timer</code> が <code>AUTO_EXIT_ENABLED</code> の判定をしておらず、ズーム・スクロール等の操作のたびに終了タイマーが登録されてしまっていた。Pi 版で <b>1分後にアプリが突然終了する</b>現象を解消。<span class="why">常時表示運用を阻害する重大バグ</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-fix">FIX</div>
+    <div class="item-body">
+      <div class="item-title">フルスクリーン時にボタン枠線が消える事象を修正</div>
+      <div class="item-detail">Wayland のフルスクリーン遷移で Canvas の描画コンテンツがクリアされ、Tk が自動再描画しない問題に対応。<code>_redraw_canvas_widgets()</code> をフルスクリーン切替後に2回呼び出し（150ms / 400ms）。<span class="why">マウスを乗せた時のみ枠線が出る現象が発生していた</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-fix">FIX</div>
+    <div class="item-body">
+      <div class="item-title">設定画面が空表示になる問題を修正</div>
+      <div class="item-detail"><code>grab_set()</code> がウィンドウ表示前に呼ばれて例外発生し、後続の UI 構築が中断されていた。<code>wait_visibility()</code> 後に <code>grab_set()</code> を呼ぶよう変更。さらに Canvas サイズを <code>update_idletasks</code> で確定後にスクロール領域を設定。<span class="why">Pi 版で設定画面を開いても何も表示されなかった</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-fix">FIX</div>
+    <div class="item-body">
+      <div class="item-title">ImageTk インポートエラー対応</div>
+      <div class="item-detail"><code>python3-pil.imagetk</code> パッケージを <code>--setup</code> 時に自動インストール対象に追加。<span class="why">Pi の Pillow と PIL.ImageTk の連携で、apt 由来のパッケージが別途必要だった</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-fix">FIX</div>
+    <div class="item-body">
+      <div class="item-title">設定画面の geometry/minsize 矛盾を解消</div>
+      <div class="item-detail">第2版では <code>geometry("1080x640")</code> と <code>minsize(1200, 700)</code> の値が逆転していた。画面サイズに応じて動的計算するロジックに変更。</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-fix">FIX</div>
+    <div class="item-body">
+      <div class="item-title">フォント置換時の自己参照バグ（一時混入）</div>
+      <div class="item-detail">フォント変数化の過程で生じた <code>FONT_UI = FONT_UI</code> の自己参照を、案C採用時にクリーンアップ。<span class="why">フォールバック時に NameError 発生の可能性があった</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-fix">FIX</div>
+    <div class="item-body">
+      <div class="item-title">スクロールバーが極細表示になる問題（Wayland）</div>
+      <div class="item-detail"><code>tk.Scrollbar</code> の <code>width</code> パラメータが Wayland で無視されていた。<code>ttk.Style</code> + clam テーマで 28px に明示指定。</div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-icon">⚙️</div><div class="sec-title">内部変更（保守性向上）</div><div class="sec-count">5件</div></div>
+  <div class="sec-body">
+
+  <div class="item">
+    <div class="item-tag tag-int">INT</div>
+    <div class="item-body">
+      <div class="item-title">識別子・パスのASCII化</div>
+      <div class="item-detail">フォルダ名・ファイル名から日本語を排除し、<code>hinpyo_pi_v3.0</code> / <code>hinpyo_exe_v3.0</code> / <code>hinpyo_app.exe</code> / <code>hinpyo.desktop</code> に統一。<span class="why">UNIX 系ツール・パス解決・SSH 転送でのトラブル防止</span></div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-int">INT</div>
+    <div class="item-body">
+      <div class="item-title">IconBtn クラスの拡張</div>
+      <div class="item-detail"><code>rect=True</code>, <code>w/h</code>, <code>font_size</code> パラメータを追加し、円形・矩形両対応に。既存の他のIconBtnは互換維持。</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-int">INT</div>
+    <div class="item-body">
+      <div class="item-title">CustomScrollbar クラス追加（廃止予定）</div>
+      <div class="item-detail">当初 Canvas ベースのスクロールバーを実装したが、最終的に ttk スタイルで対応。クラス定義は残しているが現状未使用。</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-int">INT</div>
+    <div class="item-body">
+      <div class="item-title">サンプルPDF生成ツール</div>
+      <div class="item-detail"><code>_dev_tools/generate_sample_pdfs.py</code> で 20件のサンプル品標を一括生成。fitz 内蔵CIDフォント使用で PDF 1件 5〜20KB に収まる。</div>
+    </div>
+  </div>
+
+  <div class="item">
+    <div class="item-tag tag-int">INT</div>
+    <div class="item-body">
+      <div class="item-title">spec ファイル名・出力名の統一</div>
+      <div class="item-detail"><code>main_v2.spec</code> （exe出力名: <code>main_v2.exe</code>） → <code>main_v3.spec</code>（exe出力名: <code>hinpyo_app.exe</code>）</div>
+    </div>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-icon">📦</div><div class="sec-title">納品物の構成変更</div></div>
+  <div class="sec-body">
+
+  <table>
+    <thead><tr><th style="width:200px">項目</th><th>第2版</th><th>第3版</th></tr></thead>
+    <tbody>
+    <tr><td><b>対象OS</b></td><td>Windows</td><td>Windows + Raspberry Pi</td></tr>
+    <tr><td><b>納品物（exe）</b></td><td>main_v2.exe</td><td><code>hinpyo_exe_v3.0/hinpyo_app.exe</code> ＋ サンプルPDF 20件</td></tr>
+    <tr><td><b>納品物（py）</b></td><td>—</td><td><code>hinpyo_pi_v3.0/main_v3.py</code> ＋ サンプルPDF 20件</td></tr>
+    <tr><td><b>セットアップ要否</b></td><td>不要（ダブルクリック）</td><td>exe版: 不要 / Pi版: <code>--setup</code> 1コマンド</td></tr>
+    <tr><td><b>初期PDF登録</b></td><td>無し</td><td>20件事前登録済み</td></tr>
+    <tr><td><b>動作確認資料</b></td><td>—</td><td>Web版チェックリスト（60項目）</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-icon">📘</div><div class="sec-title">技術仕様（参考）</div></div>
+  <div class="sec-body">
+
+  <table>
+    <thead><tr><th style="width:200px">項目</th><th>仕様</th></tr></thead>
+    <tbody>
+    <tr><td>Python バージョン</td><td>3.8 以降（Pi は 3.13）</td></tr>
+    <tr><td>依存ライブラリ</td><td>PyMuPDF (fitz), Pillow, tkinter</td></tr>
+    <tr><td>exe ビルドツール</td><td>PyInstaller 6.x</td></tr>
+    <tr><td>exe サイズ</td><td>約 54MB</td></tr>
+    <tr><td>main_v3.py サイズ</td><td>約 75KB（2,430行）</td></tr>
+    <tr><td>サンプルPDF合計</td><td>約 320KB（20件・各5〜20KB）</td></tr>
+    <tr><td>ライブラリ最大登録数</td><td>20スロット</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <div class="note-title">📋 関連ドキュメント</div>
+    <p>
+      ・<a href="debug.html" style="color:var(--orange);font-weight:700">最終デバッグチェックリスト</a>（実機検証用・60項目）<br>
+      ・<a href="index.html" style="color:var(--orange);font-weight:700">実装方針書</a>（開発時の設計判断記録）
+    </p>
+  </div>
+  </div>
+</section>
+
+<footer>
+  品標表示アプリ 第3版（v3.0.1）リリースノート ／ 2026-05-18 ／ 株式会社 Unsee
+</footer>
+
+</div>
+</body>
+</html>
