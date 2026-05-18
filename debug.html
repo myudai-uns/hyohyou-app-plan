@@ -115,8 +115,8 @@ footer{padding:14px 20px;color:var(--ink3);font-size:10px;text-align:center;font
   <div class="kicker">CLIENT / アイシン高丘東北 — APP / 品標表示アプリ 第3版</div>
   <h1>最終デバッグチェックリスト<span class="sub">Raspberry Pi 実機 + Windows exe 両環境の動作確認手順</span></h1>
   <div class="meta">
-    <span><b>VERSION</b>v3.0</span>
-    <span><b>DATE</b>2026-05-18</span>
+    <span><b>VERSION</b>v3.0.1</span>
+    <span><b>DATE</b>2026-05-18 最新修正反映</span>
     <span><b>項目数</b><span id="totalcount">--</span></span>
     <span><b>所要時間</b>約60-90分</span>
   </div>
@@ -205,6 +205,7 @@ footer{padding:14px 20px;color:var(--ink3);font-size:10px;text-align:center;font
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PDF-01</div><div class="check-q">PDF の全ページが日本語含めて正しくレンダリング</div><div class="check-detail">表紙の「サンプル品標」「品番コード」などが読める</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PDF-02</div><div class="check-q">青ヘッダー・オレンジ帯・テーブル罫線が正しく描画</div><div class="check-detail">背景色が抜けたり線が消えたりしない</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PDF-03</div><div class="check-q">ウィンドウサイズ変更時にPDFが再フィットする</div><div class="check-detail">ウィンドウを縮めても拡大しても、PDFが追従</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PDF-04</div><div class="check-q"><b>PDFが表示領域（メインビュー）の中央</b>に表示される</div><div class="check-detail"><b>修正点：</b>サイドバーから右側の領域内で左右余白が等しく見える。PDF左端〜サイドバー右端の距離と、PDF右端〜画面右端の距離が同程度</div></div></label>
   </div>
 
   <h3>4-2. ページ送り <span class="tag">操作</span></h3>
@@ -221,7 +222,8 @@ footer{padding:14px 20px;color:var(--ink3);font-size:10px;text-align:center;font
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-01</div><div class="check-q">サイドバー <kbd>+</kbd> ボタンで拡大</div><div class="check-detail">100% → 125% → 156% ... と段階的に大きく</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-02</div><div class="check-q">サイドバー <kbd>-</kbd> ボタンで縮小</div><div class="check-detail">100% → 80% → 64% ... と段階的に小さく</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-03</div><div class="check-q">中央の「100%」表示が現在のズーム率に追従</div><div class="check-detail">操作のたびに数値が更新される</div></div></label>
-    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-04</div><div class="check-q"><kbd>Ctrl</kbd> + マウスホイールでもズーム</div><div class="check-detail">PDF領域にカーソルを乗せて操作</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-04</div><div class="check-q"><kbd>Ctrl</kbd> + マウスホイールでズーム</div><div class="check-detail"><b>修正点：</b> Pi (Linux) では <code>Control-Button-4/5</code> イベントの対応を追加。PDF領域にカーソルを乗せて Ctrl+ホイール上下で拡大縮小</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-05</div><div class="check-q"><kbd>Shift</kbd> + マウスホイールでもズーム</div><div class="check-detail">代替のショートカット。Linux/Windows両対応</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-05</div><div class="check-q">拡大時にドラッグでパン（表示位置移動）可能</div><div class="check-detail">PDF領域でマウスドラッグして表示エリアを動かす</div></div></label>
   </div>
   </div>
@@ -304,8 +306,9 @@ footer{padding:14px 20px;color:var(--ink3);font-size:10px;text-align:center;font
 
   <h3>8-1. 自動終了 OFF 確認 <span class="tag">重要</span></h3>
   <div class="check-list">
-    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">IDLE-01</div><div class="check-q">アプリ起動後、<b>5分間放置</b>してもアプリが終了しない</div><div class="check-detail">Pi版は AUTO_EXIT_ENABLED = False のため終了タイマーは動かない</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">IDLE-01</div><div class="check-q">アプリ起動後、<b>5分間放置</b>してもアプリが終了しない</div><div class="check-detail"><b>修正点：</b> Pi版で _reset_idle_timer が AUTO_EXIT_ENABLED の判定をしておらず、ズーム・スクロール操作のたびに終了タイマー登録されていたバグを修正</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">IDLE-02</div><div class="check-q">マウス・キーボード操作なしでも PDF 表示が維持される</div><div class="check-detail">画面がスリープしないよう Pi 側設定も推奨</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">IDLE-03</div><div class="check-q">PDFをズームしたあと放置しても自動終了しない</div><div class="check-detail">ズーム操作のたびに _reset_idle_timer が呼ばれていた箇所の修正確認</div></div></label>
   </div>
 
   <h3>8-2. 自動起動の設定 <span class="tag">運用</span></h3>
