@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>品標表示アプリ 第3版 最終デバッグチェックリスト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#1a1c1f;
+  --bg2:#23262b;
+  --bg3:#2c3036;
+  --line:#3a3f47;
+  --ink:#f3f4f6;
+  --ink2:#c8ccd2;
+  --ink3:#8b939c;
+  --orange:#ff7a1a;
+  --orange-d:#e85d00;
+  --green:#3fb950;
+  --green-d:#2ea043;
+  --red:#ff4d4d;
+  --yellow:#ffc933;
+  --purple:#a855f7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--ink);font-family:"Noto Sans JP",sans-serif;font-weight:500;-webkit-font-smoothing:antialiased}
+code,kbd,pre{font-family:"JetBrains Mono","Noto Sans JP",monospace;font-weight:500}
+body{padding:0 0 80px}
+.wrap{max-width:1100px;margin:0 auto}
+header{background:var(--bg2);padding:36px 40px 28px;border-bottom:4px solid var(--orange)}
+.kicker{font-size:13px;font-weight:700;color:var(--orange);letter-spacing:.12em}
+h1{font-size:38px;font-weight:900;line-height:1.15;margin-top:8px;letter-spacing:-.01em}
+h1 .sub{display:block;font-size:18px;font-weight:700;color:var(--ink2);margin-top:10px;letter-spacing:0}
+.meta{margin-top:16px;display:flex;gap:24px;flex-wrap:wrap;font-size:13px;color:var(--ink3);font-weight:700}
+.meta span b{color:var(--green);font-weight:900;margin-right:6px}
+.actions{margin-top:16px;display:flex;gap:10px}
+.btn{background:var(--orange);color:#fff;border:none;padding:9px 16px;font-weight:900;font-size:12px;border-radius:4px;cursor:pointer;letter-spacing:.06em;font-family:inherit}
+.btn:hover{background:var(--orange-d)}
+.btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--bg3);color:var(--ink)}
+section{padding:0 40px}
+.sec{margin:0;border-bottom:1px solid var(--line);background:var(--bg)}
+.sec-head{padding:32px 40px 16px;display:flex;align-items:baseline;gap:18px}
+.sec-num{font-size:14px;font-weight:900;color:var(--orange);letter-spacing:.1em;flex-shrink:0;min-width:60px}
+.sec-title{font-size:26px;font-weight:900;letter-spacing:-.01em}
+.sec-lead{padding:0 40px 18px 118px;color:var(--ink2);font-size:14px;font-weight:500;line-height:1.7}
+.sec-body{padding:0 40px 36px}
+h3{font-size:17px;font-weight:900;margin:24px 0 12px;padding-left:12px;border-left:4px solid var(--green);display:flex;align-items:center;gap:10px}
+h3 .tag{font-size:10px;background:var(--bg3);color:var(--ink3);padding:2px 8px;border-radius:3px;font-weight:900;letter-spacing:.06em}
+p{font-size:14px;line-height:1.8;color:var(--ink2);font-weight:500}
+.check-list{display:flex;flex-direction:column;gap:0;margin:8px 0;border:1px solid var(--line);background:var(--bg2);border-radius:6px;overflow:hidden}
+.check{display:flex;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line);align-items:flex-start;cursor:pointer;transition:background .12s}
+.check:last-child{border-bottom:none}
+.check:hover{background:var(--bg3)}
+.check input{appearance:none;width:24px;height:24px;border:2px solid #94A3B8;border-radius:5px;cursor:pointer;flex-shrink:0;margin-top:2px;background:var(--bg);position:relative;transition:all .15s}
+.check input:checked{background:var(--green);border-color:var(--green)}
+.check input:checked::after{content:"";position:absolute;left:6px;top:1px;width:8px;height:14px;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg)}
+.check-body{flex:1}
+.check-no{font-size:11px;font-weight:900;color:var(--ink3);letter-spacing:.06em;margin-bottom:3px}
+.check-q{font-size:14px;font-weight:700;color:var(--ink);line-height:1.5}
+.check-detail{font-size:12px;color:var(--ink3);margin-top:4px;line-height:1.65;font-weight:500}
+.check-detail b{color:var(--ink2);font-weight:700}
+.check-detail code{background:var(--bg);color:var(--orange);padding:1px 6px;border-radius:3px;font-size:11px}
+.check input:checked ~ .check-body .check-q{color:var(--ink3);text-decoration:line-through}
+.note{background:var(--bg2);border-left:4px solid var(--orange);padding:14px 18px;margin:14px 0;border-radius:0 6px 6px 0}
+.note-title{font-weight:900;font-size:13px;margin-bottom:6px;color:var(--orange);letter-spacing:.04em}
+.note p{color:var(--ink);font-size:13px;line-height:1.7}
+.note.green{border-color:var(--green)}
+.note.green .note-title{color:var(--green)}
+.note.red{border-color:var(--red)}
+.note.red .note-title{color:var(--red)}
+.note.purple{border-color:var(--purple)}
+.note.purple .note-title{color:var(--purple)}
+pre{background:var(--bg3);color:var(--ink);padding:14px 18px;border-radius:6px;font-size:12px;line-height:1.7;overflow-x:auto;margin:10px 0;border:1px solid var(--line)}
+pre .c{color:var(--ink3)}
+pre .k{color:var(--orange);font-weight:700}
+pre .s{color:var(--green)}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px;background:var(--bg2);border-radius:6px;overflow:hidden}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--bg3);font-weight:900;color:var(--ink);font-size:12px;letter-spacing:.04em}
+.progress{position:sticky;top:0;background:var(--bg2);border-bottom:2px solid var(--orange);padding:12px 40px;display:flex;align-items:center;gap:18px;z-index:100}
+.progress-bar{flex:1;height:10px;background:var(--bg3);border-radius:5px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--green));transition:width .3s;border-radius:5px}
+.progress-text{font-size:13px;font-weight:900;color:var(--ink);min-width:120px;text-align:right}
+.kbd{display:inline-block;background:var(--bg3);color:var(--ink);font-family:"JetBrains Mono",monospace;font-weight:700;font-size:11px;padding:2px 8px;border-radius:3px;border:1px solid var(--line);margin:0 2px}
+footer{padding:32px 40px;color:var(--ink3);font-size:12px;text-align:center;font-weight:500}
+@media print{
+  .progress,.actions{display:none}
+  body{background:#fff;color:#000}
+  html,body{font-family:"Noto Sans JP",sans-serif}
+  .check{break-inside:avoid;border-color:#ccc}
+  .sec{page-break-inside:avoid}
+  *{background:#fff !important;color:#000 !important}
+  .check input{border:2px solid #000 !important}
+  .check input:checked{background:#000 !important}
+  pre,code{background:#f0f0f0 !important;color:#000 !important}
+}
+@media(max-width:760px){
+  header{padding:24px 20px}
+  h1{font-size:26px}
+  .sec-head{padding:24px 20px 12px;flex-direction:column;gap:6px}
+  .sec-lead{padding:0 20px 18px}
+  .sec-body{padding:0 20px 28px}
+  .progress{padding:10px 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="progress">
+  <div class="progress-text" id="ptext">0 / 0 (0%)</div>
+  <div class="progress-bar"><div class="progress-fill" id="pfill" style="width:0"></div></div>
+</div>
+
+<div class="wrap">
+
+<header>
+  <div class="kicker">CLIENT / アイシン高丘東北 — APP / 品標表示アプリ 第3版</div>
+  <h1>最終デバッグチェックリスト<span class="sub">Raspberry Pi 実機 + Windows exe 両環境の動作確認手順</span></h1>
+  <div class="meta">
+    <span><b>VERSION</b>v3.0</span>
+    <span><b>DATE</b>2026-05-18</span>
+    <span><b>項目数</b><span id="totalcount">--</span></span>
+    <span><b>所要時間</b>約60-90分</span>
+  </div>
+  <div class="actions">
+    <button class="btn" onclick="resetAll()">チェックリセット</button>
+    <button class="btn ghost" onclick="window.print()">印刷</button>
+    <button class="btn ghost" onclick="exportText()">テキスト出力</button>
+  </div>
+</header>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 01</div><div class="sec-title">準備</div></div>
+  <div class="sec-lead">テスト前に確認しておく事項。物理的な接続・電源・ネットワークが揃っていることを確かめます。</div>
+  <div class="sec-body">
+
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PREP-01</div><div class="check-q">Raspberry Pi が起動しモニターに映像が出ている</div><div class="check-detail">HDMI接続・電源ON・デスクトップ表示まで完了</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PREP-02</div><div class="check-q">Pi のキーボード・マウス（タッチパネル）が反応する</div><div class="check-detail">USB接続を確認。タッチパネル使用時は較正済みであること</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PREP-03</div><div class="check-q">Windows PC で exe テスト用環境を準備</div><div class="check-detail">納品物の <code>hyohyou_exe_v3.0/</code> フォルダにアクセスできる</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PREP-04</div><div class="check-q">不具合発生時の記録ツール（スマホカメラ等）を用意</div><div class="check-detail">画面異常を写真で残せるようにする</div></div></label>
+  </div>
+
+  <div class="note">
+    <div class="note-title">📋 配置場所</div>
+    <p>Pi: <code>/home/pi/hyohyou_pi_v3.0/</code>　／　Windows: <code>hyohyou_exe_v3.0/hyohyou_app.exe</code></p>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 02</div><div class="sec-title">Pi 版 — 起動と初期表示</div></div>
+  <div class="sec-lead">Raspberry Pi 実機での起動手順と初期画面の確認。</div>
+  <div class="sec-body">
+
+  <h3>2-1. 起動 <span class="tag">基本</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">START-01</div><div class="check-q">ターミナルから <code>python3 main_v3.py</code> でアプリ起動できる</div><div class="check-detail"><b>手順：</b> Pi のターミナルで <code>cd ~/hyohyou_pi_v3.0 && python3 main_v3.py</code></div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">START-02</div><div class="check-q">スプラッシュ画面が一瞬表示される（ロゴ＋プログレスバー）</div><div class="check-detail">起動から約2秒間、青いドット＋プログレスバーが表示</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">START-03</div><div class="check-q">メインウィンドウが表示される</div><div class="check-detail">左サイドバー＋右メインビューの2カラムレイアウト</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">START-04</div><div class="check-q">最後に開いていたPDFが自動表示される（2回目以降）</div><div class="check-detail">初回起動時は「ようこそ」画面、2回目以降は前回のPDF</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">START-05</div><div class="check-q">ターミナルにエラーメッセージが出ていない</div><div class="check-detail">Python のスタックトレースが流れていないこと</div></div></label>
+  </div>
+
+  <h3>2-2. 表示 <span class="tag">UI</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">UI-01</div><div class="check-q">サイドバー上部に「PDFビューア」ロゴ＋「設定」ボタンが表示</div><div class="check-detail">設定ボタンは矩形・横長（136×34px）・「設定」のテキスト</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">UI-02</div><div class="check-q">日本語が文字化けせず正しく表示</div><div class="check-detail">「サンプル品標 第01号」等が□ではなく漢字・かなで表示</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">UI-03</div><div class="check-q">サイドバーの幅が広め（380px）でカード文字が読みやすい</div><div class="check-detail">「サンプル品標 第01号」が省略されず全表示</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">UI-04</div><div class="check-q">右上ツールバーに6つの矩形ボタンが並ぶ</div><div class="check-detail">📂 / 🎨 / 👁️ / ✏️ / 🗑 / 🔄  各64×44px・濃いグレー枠線</div></div></label>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 03</div><div class="sec-title">Pi 版 — ライブラリ 20件の操作</div></div>
+  <div class="sec-lead">サイドバーに 20件のサンプル品標が登録されていることを確認します。</div>
+  <div class="sec-body">
+
+  <h3>3-1. ライブラリ一覧 <span class="tag">必須</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">LIB-01</div><div class="check-q">サイドバーに 20件 のサンプル品標が登録されている</div><div class="check-detail">サンプル品標 第01号 〜 第20号</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">LIB-02</div><div class="check-q">右端に <b>太いスクロールバー</b>（28px）が表示</div><div class="check-detail">グレーの縦長バー＋上下に▲▼矢印</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">LIB-03</div><div class="check-q">スクロールバーのスライダーを<b>ドラッグ</b>で上下スクロール可能</div><div class="check-detail">マウス左クリックでつまみを掴んで動かす</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">LIB-04</div><div class="check-q">▲▼矢印クリックでも少しずつスクロール</div><div class="check-detail">スクロールバー上端の▲、下端の▼を押す</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">LIB-05</div><div class="check-q">マウスホイールで <b>サイドバー上</b> をスクロール</div><div class="check-detail">サイドバー領域にマウスを置いてホイール回転</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">LIB-06</div><div class="check-q">タッチパネルで<b>指ドラッグ</b>スクロール可能</div><div class="check-detail">タッチパネル接続時のみ確認</div></div></label>
+  </div>
+
+  <h3>3-2. PDFカード <span class="tag">基本</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">CARD-01</div><div class="check-q">各カードに ファイル名 + ページ数（例：3ページ）が表示</div><div class="check-detail">ページ数バッジが薄グレー背景の小さなラベル</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">CARD-02</div><div class="check-q">カードクリックで該当PDFがメインビューに表示</div><div class="check-detail">サンプル品標 第01号 〜 第20号、すべて開けることを確認</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">CARD-03</div><div class="check-q">選択中カードは <b>青い縦バー＋✓チェックマーク</b> でハイライト</div><div class="check-detail">クリックで切替時、選択状態が移動する</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">CARD-04</div><div class="check-q">カードのアイコン色が PDF ごとに異なる</div><div class="check-detail">赤・青・オレンジ・紫など、視覚的に区別可能</div></div></label>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 04</div><div class="sec-title">Pi 版 — PDF表示・操作</div></div>
+  <div class="sec-lead">メインビューでのPDF表示と各種操作の確認。</div>
+  <div class="sec-body">
+
+  <h3>4-1. PDF描画 <span class="tag">必須</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PDF-01</div><div class="check-q">PDF の全ページが日本語含めて正しくレンダリング</div><div class="check-detail">表紙の「サンプル品標」「品番コード」などが読める</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PDF-02</div><div class="check-q">青ヘッダー・オレンジ帯・テーブル罫線が正しく描画</div><div class="check-detail">背景色が抜けたり線が消えたりしない</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PDF-03</div><div class="check-q">ウィンドウサイズ変更時にPDFが再フィットする</div><div class="check-detail">ウィンドウを縮めても拡大しても、PDFが追従</div></div></label>
+  </div>
+
+  <h3>4-2. ページ送り <span class="tag">操作</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PAGE-01</div><div class="check-q">サイドバー下部の <kbd>❮</kbd> で前ページ</div><div class="check-detail">ボタン押下で 2/N → 1/N に戻る</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PAGE-02</div><div class="check-q">サイドバー下部の <kbd>❯</kbd> で次ページ</div><div class="check-detail">ボタン押下で 1/N → 2/N に進む</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PAGE-03</div><div class="check-q">キーボード <kbd>←</kbd> <kbd>→</kbd> でもページ送り</div><div class="check-detail">アプリにフォーカスがある状態で確認</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PAGE-04</div><div class="check-q">画面下に「現在/総ページ」が正しく表示</div><div class="check-detail">例: 「2 / 4」</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PAGE-05</div><div class="check-q">PDFをスワイプ（タッチ）でページめくり</div><div class="check-detail">タッチパネル接続時のみ</div></div></label>
+  </div>
+
+  <h3>4-3. ズーム <span class="tag">操作</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-01</div><div class="check-q">サイドバー <kbd>+</kbd> ボタンで拡大</div><div class="check-detail">100% → 125% → 156% ... と段階的に大きく</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-02</div><div class="check-q">サイドバー <kbd>-</kbd> ボタンで縮小</div><div class="check-detail">100% → 80% → 64% ... と段階的に小さく</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-03</div><div class="check-q">中央の「100%」表示が現在のズーム率に追従</div><div class="check-detail">操作のたびに数値が更新される</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-04</div><div class="check-q"><kbd>Ctrl</kbd> + マウスホイールでもズーム</div><div class="check-detail">PDF領域にカーソルを乗せて操作</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">ZOOM-05</div><div class="check-q">拡大時にドラッグでパン（表示位置移動）可能</div><div class="check-detail">PDF領域でマウスドラッグして表示エリアを動かす</div></div></label>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 05</div><div class="sec-title">Pi 版 — フルスクリーン</div></div>
+  <div class="sec-lead">常時表示運用に必須のフルスクリーン機能の動作確認。<b>枠線が消えない</b>ことが今回の重要修正点。</div>
+  <div class="sec-body">
+
+  <h3>5-1. フルスクリーン切替 <span class="tag">重要</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">FS-01</div><div class="check-q"><kbd>F11</kbd> キーでフルスクリーンに切替</div><div class="check-detail">ウィンドウ装飾が消え、画面全体に表示される</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">FS-02</div><div class="check-q">サイドバー下部「全画面表示」ボタンでも切替できる</div><div class="check-detail">348px幅の青ラベルボタン</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">FS-03</div><div class="check-q"><kbd>Esc</kbd> でフルスクリーン解除</div><div class="check-detail">通常ウィンドウに戻り、ツールバー（右上6ボタン）が復活</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">FS-04</div><div class="check-q">フルスクリーン時、上部ツールバーは非表示になる</div><div class="check-detail">右上の6ボタン群がフルスクリーン中は見えない（仕様通り）</div></div></label>
+  </div>
+
+  <h3>5-2. <b>枠線消失防止</b>（重要修正点） <span class="tag">重要</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">FS-05</div><div class="check-q">フルスクリーン直後、<kbd>+</kbd> <kbd>-</kbd> ボタンの枠線が<b>マウスを乗せずに見える</b></div><div class="check-detail"><b>以前のバグ：</b> フルスクリーン後、ボタン枠線が消え、hover で初めて表示された<br><b>修正：</b> Wayland 遷移後に Canvas を自動再描画</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">FS-06</div><div class="check-q">フルスクリーン直後、<kbd>❮</kbd> <kbd>❯</kbd> ページボタンの枠線も見える</div><div class="check-detail">サイドバー下部の前/次ページボタン</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">FS-07</div><div class="check-q">フルスクリーン直後、「全画面表示」ボタンの枠線も見える</div><div class="check-detail">サイドバー中央の青ラベルボタン</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">FS-08</div><div class="check-q">フルスクリーン → 解除 → フルスクリーン を 3回繰り返しても枠線は維持</div><div class="check-detail">トランジションを連続して行い、すべての回で枠線が表示</div></div></label>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 06</div><div class="sec-title">Pi 版 — 設定画面とライブラリ編集</div></div>
+  <div class="sec-lead">設定画面の表示と各種編集機能の確認。</div>
+  <div class="sec-body">
+
+  <h3>6-1. 設定画面 <span class="tag">基本</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">CFG-01</div><div class="check-q">左上「設定」ボタン押下で設定画面が開く</div><div class="check-detail"><b>以前のバグ：</b> grab_set が viewable 前に呼ばれて中身が表示されなかった<br><b>修正：</b> wait_visibility 後に grab_set</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">CFG-02</div><div class="check-q">設定画面に <b>20件のPDFが行として表示</b></div><div class="check-detail">各行に色ドット・名前・ファイルパス・操作ボタン</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">CFG-03</div><div class="check-q">設定画面の上部に「設定画面を閉じる」ボタン</div><div class="check-detail">押下で設定画面が閉じる</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">CFG-04</div><div class="check-q">設定画面でスクロールが効く</div><div class="check-detail">20件全部見るためにスクロール必要</div></div></label>
+  </div>
+
+  <h3>6-2. 右上ツールバー（6ボタン） <span class="tag">操作</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">TOOL-01</div><div class="check-q">📂 ファイル変更ボタン：ファイル選択ダイアログが開く</div><div class="check-detail">別のPDFファイルを選んで現在のスロットに割当て可能</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">TOOL-02</div><div class="check-q">🎨 色変更ボタン：カードのアイコン色が切替わる</div><div class="check-detail">クリックごとに次の色（赤→橙→黄→緑→青→紫）</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">TOOL-03</div><div class="check-q">👁️ 表示切替：PDF をサイドバーから非表示にできる</div><div class="check-detail">再度押下で表示に戻る</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">TOOL-04</div><div class="check-q">✏️ 名前変更：表示名を編集ダイアログで変更</div><div class="check-detail">入力後、サイドバーカードの名前が更新</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">TOOL-05</div><div class="check-q">🗑 削除：ライブラリから削除（PDFファイルは残る）</div><div class="check-detail">確認ダイアログ→OKで削除</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">TOOL-06</div><div class="check-q">🔄 回転：PDFが時計回りに90°回転表示</div><div class="check-detail">押下ごとに90°ずつ回転</div></div></label>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 07</div><div class="sec-title">Pi 版 — キーボード・タッチ</div></div>
+  <div class="sec-lead">全キーボードショートカットとタッチ操作の網羅確認。</div>
+  <div class="sec-body">
+
+  <h3>7-1. キーボードショートカット</h3>
+  <table>
+    <thead><tr><th style="width:200px">キー</th><th>動作</th><th style="width:80px">チェック</th></tr></thead>
+    <tbody>
+    <tr><td><kbd>F11</kbd></td><td>フルスクリーン切替</td><td><input type="checkbox" class="ck"></td></tr>
+    <tr><td><kbd>Esc</kbd></td><td>フルスクリーン解除</td><td><input type="checkbox" class="ck"></td></tr>
+    <tr><td><kbd>←</kbd></td><td>前ページ</td><td><input type="checkbox" class="ck"></td></tr>
+    <tr><td><kbd>→</kbd></td><td>次ページ</td><td><input type="checkbox" class="ck"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>+</kbd></td><td>ズームイン</td><td><input type="checkbox" class="ck"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+<kbd>-</kbd></td><td>ズームアウト</td><td><input type="checkbox" class="ck"></td></tr>
+    <tr><td><kbd>Ctrl</kbd>+ホイール</td><td>ズーム</td><td><input type="checkbox" class="ck"></td></tr>
+    <tr><td><kbd>r</kbd></td><td>回転</td><td><input type="checkbox" class="ck"></td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 08</div><div class="sec-title">Pi 版 — 常時表示・自動起動</div></div>
+  <div class="sec-lead">製造ライン運用に必須の機能。長時間放置と再起動後の自動起動を確認。</div>
+  <div class="sec-body">
+
+  <h3>8-1. 自動終了 OFF 確認 <span class="tag">重要</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">IDLE-01</div><div class="check-q">アプリ起動後、<b>5分間放置</b>してもアプリが終了しない</div><div class="check-detail">Pi版は AUTO_EXIT_ENABLED = False のため終了タイマーは動かない</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">IDLE-02</div><div class="check-q">マウス・キーボード操作なしでも PDF 表示が維持される</div><div class="check-detail">画面がスリープしないよう Pi 側設定も推奨</div></div></label>
+  </div>
+
+  <h3>8-2. 自動起動の設定 <span class="tag">運用</span></h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">AUTO-01</div><div class="check-q">ターミナルで <code>python3 main_v3.py --install-autostart</code> 実行</div><div class="check-detail">「✓ 自動起動を設定しました」と表示</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">AUTO-02</div><div class="check-q"><code>~/.config/autostart/hyohyou.desktop</code> が作成される</div><div class="check-detail">確認: <code>cat ~/.config/autostart/hyohyou.desktop</code></div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">AUTO-03</div><div class="check-q">Pi を <code>sudo reboot</code> で再起動 → ログイン後に自動でアプリ起動</div><div class="check-detail">デスクトップが表示されてから数秒〜十数秒で起動</div></div></label>
+  </div>
+
+  <h3>8-3. 長時間稼働</h3>
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">LONG-01</div><div class="check-q"><b>30分以上連続</b> 稼働後もアプリ正常動作</div><div class="check-detail">操作レスポンス・表示にもたつき無し</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">LONG-02</div><div class="check-q">PDFを10回以上切替えてもメモリリーク・クラッシュ無し</div><div class="check-detail">Pi のメモリ使用量を <code>top</code> で確認推奨</div></div></label>
+  </div>
+
+  <div class="note red">
+    <div class="note-title">⚠ 工場ライン投入前の最終確認</div>
+    <p>自動起動有効化済み・自動終了OFF・F11フルスクリーン状態でPi再起動 → 自動起動 → フルスクリーン展開 → そのまま<b>1時間以上</b>放置して安定確認</p>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 09</div><div class="sec-title">Windows 版（exe）動作確認</div></div>
+  <div class="sec-lead">Windows端末でexe版が動くこと、自動終了が機能することの確認。</div>
+  <div class="sec-body">
+
+  <div class="check-list">
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">EXE-01</div><div class="check-q"><code>hyohyou_app.exe</code> をダブルクリックで起動</div><div class="check-detail">追加インストール不要・単体exeで完結</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">EXE-02</div><div class="check-q">スプラッシュ → メインウィンドウ表示</div><div class="check-detail">タイトルバーに「PDFビューア」</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">EXE-03</div><div class="check-q">日本語フォントが正しく表示（Segoe UI）</div><div class="check-detail">Pi版とは別のフォントだが両方とも正しく描画</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">EXE-04</div><div class="check-q"><kbd>F11</kbd> でフルスクリーン化（Windows の zoomed モード）</div><div class="check-detail">タイトルバー保持・タスクバー上に最大化</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">EXE-05</div><div class="check-q"><b>1分以上 無操作</b> でアプリが自動終了する</div><div class="check-detail">exe版は AUTO_EXIT_ENABLED = True のため自動終了が機能</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">EXE-06</div><div class="check-q">PDF ファイルパス（Windows形式 <code>C:\...</code>）が config.json で正しく動く</div><div class="check-detail">初回起動時に空 config が自動生成される</div></div></label>
+  </div>
+
+  <div class="note">
+    <div class="note-title">📝 Windows 版で先方が実際に使うPDFを登録する</div>
+    <p>exe版は<b>サンプルPDFが含まれていない</b>。先方の正式品標PDFを別途用意し、設定画面（または📂ボタン）から登録してもらう運用。</p>
+  </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="sec-head"><div class="sec-num">SEC 10</div><div class="sec-title">不具合発生時の報告フォーマット</div></div>
+  <div class="sec-lead">不具合があった場合、以下の形式で記録すると修正がスムーズになります。</div>
+  <div class="sec-body">
+
+  <pre><span class="c"># 不具合報告テンプレート</span>
+
+【発生環境】
+  □ Pi版（main_v3.py）
+  □ exe版（hyohyou_app.exe）
+
+【発生したチェック項目番号】
+  例: FS-05, AUTO-03
+
+【発生条件】
+  例: フルスクリーン→解除を3回連続実行した直後
+
+【期待動作】
+  ボタンの枠線が常時表示される
+
+【実際の動作】
+  3回目の解除後、+ - の枠線だけ消えている（hoverで復活）
+
+【スクリーンショット】
+  あり / なし
+
+【ターミナルのエラー】
+  ※ Pi版でターミナル起動の場合のみ
+  添付 or テキストコピー</pre>
+
+  <h3>📷 スクリーンショットの撮り方</h3>
+  <p><b>Pi（Wayland）：</b></p>
+  <pre><span class="c"># Pi のターミナルで実行</span>
+grim ~/screenshot.png</pre>
+  <p><b>Windows：</b><br>
+    <kbd>Win</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> → 範囲選択 → 自動コピー</p>
+
+  <h3>📜 ターミナルログの取得（Pi）</h3>
+  <pre><span class="c"># アプリを終了してから、ターミナル起動で実行</span>
+cd ~/hyohyou_pi_v3.0
+python3 main_v3.py > ~/app.log 2>&1
+
+<span class="c"># 不具合を再現した後、別ターミナルで</span>
+cat ~/app.log</pre>
+  </div>
+</section>
+
+<footer>
+  品標表示アプリ 第3版 最終デバッグチェックリスト ／ 2026-05-18 ／ アイシン高丘東北
+</footer>
+
+</div>
+
+<script>
+function updateProgress(){
+  const all = document.querySelectorAll('input[type="checkbox"]');
+  const done = document.querySelectorAll('input[type="checkbox"]:checked');
+  const pct = all.length === 0 ? 0 : Math.round(done.length / all.length * 100);
+  document.getElementById('pfill').style.width = pct + '%';
+  document.getElementById('ptext').textContent = `${done.length} / ${all.length} (${pct}%)`;
+  document.getElementById('totalcount').textContent = all.length + '項目';
+  // 保存
+  const state = Array.from(all).map(c => c.checked);
+  try { localStorage.setItem('hyohyou-debug', JSON.stringify(state)); } catch(e){}
+}
+function loadState(){
+  try {
+    const saved = JSON.parse(localStorage.getItem('hyohyou-debug') || '[]');
+    const all = document.querySelectorAll('input[type="checkbox"]');
+    saved.forEach((v,i) => { if(all[i]) all[i].checked = v; });
+  } catch(e){}
+}
+function resetAll(){
+  if(!confirm('全てのチェックをリセットしますか？')) return;
+  document.querySelectorAll('input[type="checkbox"]').forEach(c => c.checked = false);
+  updateProgress();
+}
+function exportText(){
+  const lines = ['# 品標表示アプリ 第3版 デバッグチェック結果','日付: ' + new Date().toLocaleString('ja-JP'),''];
+  document.querySelectorAll('.sec').forEach(sec => {
+    const t = sec.querySelector('.sec-title');
+    if(t) lines.push('\n## ' + t.textContent);
+    sec.querySelectorAll('.check').forEach(c => {
+      const cb = c.querySelector('input');
+      const q = c.querySelector('.check-q');
+      const no = c.querySelector('.check-no');
+      if(cb && q) lines.push(`  ${cb.checked ? '[x]' : '[ ]'} ${no ? no.textContent + ': ' : ''}${q.textContent}`);
+    });
+    sec.querySelectorAll('table input.ck').forEach((cb,i) => {
+      const row = cb.closest('tr');
+      const kbd = row.querySelector('td:first-child').textContent;
+      const action = row.querySelector('td:nth-child(2)').textContent;
+      lines.push(`  ${cb.checked ? '[x]' : '[ ]'} ${kbd.trim()} - ${action}`);
+    });
+  });
+  const blob = new Blob([lines.join('\n')], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'debug-result-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+document.addEventListener('DOMContentLoaded', () => {
+  loadState();
+  updateProgress();
+  document.querySelectorAll('input[type="checkbox"]').forEach(c => c.addEventListener('change', updateProgress));
+});
+</script>
+</body>
+</html>
