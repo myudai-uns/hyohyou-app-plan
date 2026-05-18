@@ -135,13 +135,13 @@ footer{padding:14px 20px;color:var(--ink3);font-size:10px;text-align:center;font
   <div class="check-list">
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PREP-01</div><div class="check-q">Raspberry Pi が起動しモニターに映像が出ている</div><div class="check-detail">HDMI接続・電源ON・デスクトップ表示まで完了</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PREP-02</div><div class="check-q">Pi のキーボード・マウス（タッチパネル）が反応する</div><div class="check-detail">USB接続を確認。タッチパネル使用時は較正済みであること</div></div></label>
-    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PREP-03</div><div class="check-q">Windows PC で exe テスト用環境を準備</div><div class="check-detail">納品物の <code>hyohyou_exe_v3.0/</code> フォルダにアクセスできる</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PREP-03</div><div class="check-q">Windows PC で exe テスト用環境を準備</div><div class="check-detail">納品物の <code>hinpyo_exe_v3.0/</code> フォルダにアクセスできる</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">PREP-04</div><div class="check-q">不具合発生時の記録ツール（スマホカメラ等）を用意</div><div class="check-detail">画面異常を写真で残せるようにする</div></div></label>
   </div>
 
   <div class="note">
     <div class="note-title">📋 配置場所</div>
-    <p>Pi: <code>/home/pi/hyohyou_pi_v3.0/</code>　／　Windows: <code>hyohyou_exe_v3.0/hyohyou_app.exe</code></p>
+    <p>Pi: <code>/home/pi/hinpyo_pi_v3.0/</code>　／　Windows: <code>hinpyo_exe_v3.0/hinpyo_app.exe</code></p>
   </div>
   </div>
 </section>
@@ -153,7 +153,7 @@ footer{padding:14px 20px;color:var(--ink3);font-size:10px;text-align:center;font
 
   <h3>2-1. 起動 <span class="tag">基本</span></h3>
   <div class="check-list">
-    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">START-01</div><div class="check-q">ターミナルから <code>python3 main_v3.py</code> でアプリ起動できる</div><div class="check-detail"><b>手順：</b> Pi のターミナルで <code>cd ~/hyohyou_pi_v3.0 && python3 main_v3.py</code></div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">START-01</div><div class="check-q">ターミナルから <code>python3 main_v3.py</code> でアプリ起動できる</div><div class="check-detail"><b>手順：</b> Pi のターミナルで <code>cd ~/hinpyo_pi_v3.0 && python3 main_v3.py</code></div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">START-02</div><div class="check-q">スプラッシュ画面が一瞬表示される（ロゴ＋プログレスバー）</div><div class="check-detail">起動から約2秒間、青いドット＋プログレスバーが表示</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">START-03</div><div class="check-q">メインウィンドウが表示される</div><div class="check-detail">左サイドバー＋右メインビューの2カラムレイアウト</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">START-04</div><div class="check-q">最後に開いていたPDFが自動表示される（2回目以降）</div><div class="check-detail">初回起動時は「ようこそ」画面、2回目以降は前回のPDF</div></div></label>
@@ -311,7 +311,7 @@ footer{padding:14px 20px;color:var(--ink3);font-size:10px;text-align:center;font
   <h3>8-2. 自動起動の設定 <span class="tag">運用</span></h3>
   <div class="check-list">
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">AUTO-01</div><div class="check-q">ターミナルで <code>python3 main_v3.py --install-autostart</code> 実行</div><div class="check-detail">「✓ 自動起動を設定しました」と表示</div></div></label>
-    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">AUTO-02</div><div class="check-q"><code>~/.config/autostart/hyohyou.desktop</code> が作成される</div><div class="check-detail">確認: <code>cat ~/.config/autostart/hyohyou.desktop</code></div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">AUTO-02</div><div class="check-q"><code>~/.config/autostart/hinpyo.desktop</code> が作成される</div><div class="check-detail">確認: <code>cat ~/.config/autostart/hinpyo.desktop</code></div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">AUTO-03</div><div class="check-q">Pi を <code>sudo reboot</code> で再起動 → ログイン後に自動でアプリ起動</div><div class="check-detail">デスクトップが表示されてから数秒〜十数秒で起動</div></div></label>
   </div>
 
@@ -334,7 +334,7 @@ footer{padding:14px 20px;color:var(--ink3);font-size:10px;text-align:center;font
   <div class="sec-body">
 
   <div class="check-list">
-    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">EXE-01</div><div class="check-q"><code>hyohyou_app.exe</code> をダブルクリックで起動</div><div class="check-detail">追加インストール不要・単体exeで完結</div></div></label>
+    <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">EXE-01</div><div class="check-q"><code>hinpyo_app.exe</code> をダブルクリックで起動</div><div class="check-detail">追加インストール不要・単体exeで完結</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">EXE-02</div><div class="check-q">スプラッシュ → メインウィンドウ表示</div><div class="check-detail">タイトルバーに「PDFビューア」</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">EXE-03</div><div class="check-q">日本語フォントが正しく表示（Segoe UI）</div><div class="check-detail">Pi版とは別のフォントだが両方とも正しく描画</div></div></label>
     <label class="check"><input type="checkbox"><div class="check-body"><div class="check-no">EXE-04</div><div class="check-q"><kbd>F11</kbd> でフルスクリーン化（Windows の zoomed モード）</div><div class="check-detail">タイトルバー保持・タスクバー上に最大化</div></div></label>
@@ -358,7 +358,7 @@ footer{padding:14px 20px;color:var(--ink3);font-size:10px;text-align:center;font
 
 【発生環境】
   □ Pi版（main_v3.py）
-  □ exe版（hyohyou_app.exe）
+  □ exe版（hinpyo_app.exe）
 
 【発生したチェック項目番号】
   例: FS-05, AUTO-03
@@ -388,7 +388,7 @@ grim ~/screenshot.png</pre>
 
   <h3>📜 ターミナルログの取得（Pi）</h3>
   <pre><span class="c"># アプリを終了してから、ターミナル起動で実行</span>
-cd ~/hyohyou_pi_v3.0
+cd ~/hinpyo_pi_v3.0
 python3 main_v3.py > ~/app.log 2>&1
 
 <span class="c"># 不具合を再現した後、別ターミナルで</span>
@@ -412,11 +412,11 @@ function updateProgress(){
   document.getElementById('totalcount').textContent = all.length + '項目';
   // 保存
   const state = Array.from(all).map(c => c.checked);
-  try { localStorage.setItem('hyohyou-debug', JSON.stringify(state)); } catch(e){}
+  try { localStorage.setItem('hinpyo-debug', JSON.stringify(state)); } catch(e){}
 }
 function loadState(){
   try {
-    const saved = JSON.parse(localStorage.getItem('hyohyou-debug') || '[]');
+    const saved = JSON.parse(localStorage.getItem('hinpyo-debug') || '[]');
     const all = document.querySelectorAll('input[type="checkbox"]');
     saved.forEach((v,i) => { if(all[i]) all[i].checked = v; });
   } catch(e){}
